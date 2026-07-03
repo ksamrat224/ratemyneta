@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./components/providers";
+import { LanguageToggle } from "./components/layout/LanguageToggle";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,9 +15,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const notoDevanagari = Noto_Sans_Devanagari({
+  variable: "--font-noto-devanagari",
+  subsets: ["devanagari"],
+  weight: ["400", "500", "700", "900"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Solana dApp Starter",
-  description: "A minimal Next.js starter powered by @solana/kit",
+  title: "Rate My Neta — Civic Accountability on Solana",
+  description: "Bilingual civic feedback platform verified by Janamat and immutable on Solana.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
@@ -31,8 +39,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
-        <Providers>{children}</Providers>
+      <body className={`${inter.variable} ${geistMono.variable} ${notoDevanagari.variable} antialiased`}>
+        <Providers>
+          {children}
+          <LanguageToggle />
+        </Providers>
       </body>
     </html>
   );

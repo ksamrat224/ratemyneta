@@ -84,18 +84,20 @@ export default function Home() {
           />
 
           {/* Leaderboard */}
-          <section className="space-y-3">
+          <section className="space-y-4">
             {sorted.length === 0 ? (
               <p className="text-center text-gray-400 py-10">No politicians match this filter.</p>
             ) : (
-              sorted.map((p, i) => (
-                <PoliticianCard
-                  key={p.id}
-                  politician={p}
-                  rank={i + 1}
-                  avgStars={3}
-                />
-              ))
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sorted.map((p, i) => (
+                  <PoliticianCard
+                    key={p.id}
+                    politician={p}
+                    rank={i + 1}
+                    avgStars={3}
+                  />
+                ))}
+              </div>
             )}
           </section>
 

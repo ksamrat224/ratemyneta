@@ -2,7 +2,7 @@ import type { Politician } from '@/types';
 import janamatScores from './janamat-scores.json';
 
 export function getJanamatScore(id: string): number {
-  return janamatScores[id] ?? 50;
+  return (janamatScores as Record<string, number>)[id] ?? 50;
 }
 
 export const politicians: Politician[] = [

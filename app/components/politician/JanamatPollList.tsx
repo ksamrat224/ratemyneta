@@ -22,25 +22,25 @@ function PollCard({ pollId }: { pollId: number }) {
   const total = poll.totalVotes || 1;
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
-      <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">{poll.title}</h4>
-      <div className="space-y-2">
+    <div className="border border-gray-200/80 dark:border-gray-700/60 rounded-2xl p-5 space-y-4 bg-gray-50/30 dark:bg-gray-900/35">
+      <h4 className="font-extrabold text-sm text-gray-950 dark:text-gray-100 leading-snug">{poll.title}</h4>
+      <div className="space-y-3.5">
         {poll.options.map((opt) => {
           const pct = Math.round((opt.votes / total) * 100);
           const sentiment = classifyOptionSentiment(opt.text);
           return (
-            <div key={opt.id}>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-600 dark:text-gray-300">{opt.text}</span>
-                <span className="font-medium">{pct}%</span>
+            <div key={opt.id} className="space-y-1">
+              <div className="flex justify-between text-xs font-bold">
+                <span className="text-gray-700 dark:text-gray-300">{opt.text}</span>
+                <span className="text-gray-900 dark:text-gray-200">{pct}%</span>
               </div>
-              <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                 <div
                   className={clsx(
-                    "h-full rounded-full",
-                    sentiment === "positive" && "bg-green-500",
-                    sentiment === "negative" && "bg-red-500",
-                    sentiment === "neutral" && "bg-gray-400"
+                    "h-full rounded-full transition-all duration-500",
+                    sentiment === "positive" && "bg-[#dc2626]",
+                    sentiment === "negative" && "bg-[#8b5cf6]",
+                    sentiment === "neutral" && "bg-gray-400 dark:bg-gray-600"
                   )}
                   style={{ width: `${pct}%` }}
                 />
@@ -49,7 +49,10 @@ function PollCard({ pollId }: { pollId: number }) {
           );
         })}
       </div>
-      <p className="text-xs text-gray-400">{poll.totalVotes.toLocaleString()} votes</p>
+      <div className="flex justify-between items-center pt-2 text-[10px] font-bold text-gray-450 dark:text-gray-500 uppercase tracking-wide">
+        <span>{poll.totalVotes.toLocaleString()} votes</span>
+        <span>Janamat Verified</span>
+      </div>
     </div>
   );
 }

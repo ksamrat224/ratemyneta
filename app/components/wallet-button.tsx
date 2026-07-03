@@ -44,7 +44,7 @@ export function WalletButton() {
       <div className="relative" ref={ref}>
         <button
           onClick={() => (isOpen ? close() : open())}
-          className="cursor-pointer rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-xs transition hover:bg-primary/90"
+          className="cursor-pointer rounded-full border border-white bg-white px-4 py-2 text-xs font-bold text-[#dc2626] shadow-sm transition hover:bg-white/95"
         >
           Connect Wallet
         </button>
@@ -98,10 +98,15 @@ export function WalletButton() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => (isOpen ? close() : open())}
-        className="flex cursor-pointer items-center gap-2 rounded-lg border border-border-low bg-card px-3 py-2 text-xs font-medium transition hover:bg-cream"
+        className="flex cursor-pointer items-center gap-2.5 rounded-full border border-white/25 bg-white/10 p-1 pr-3.5 text-xs text-white transition hover:bg-white/20"
       >
-        <span className="h-2 w-2 rounded-full bg-green-500" />
-        <span className="font-mono">{ellipsify(address!, 4)}</span>
+        <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs shrink-0 select-none text-white border border-white/10">
+          S
+        </div>
+        <div className="flex flex-col text-left leading-tight">
+          <span className="font-bold text-[10px] tracking-wide text-white">samrat</span>
+          <span className="font-mono text-[9px] text-white/70">@{ellipsify(address!, 4)}</span>
+        </div>
       </button>
 
       {isOpen && (

@@ -4,25 +4,49 @@ import { ThemeToggle } from "../theme-toggle";
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-40 border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <Link href="/" className="font-bold text-lg text-indigo-600 dark:text-indigo-400 shrink-0">
-          Rate My Neta
-        </Link>
+    <nav className="sticky top-0 z-40 bg-[#dc2626] text-white shadow-sm border-b border-red-700/20">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="font-black text-xl tracking-tight text-white shrink-0 hover:opacity-90 transition-opacity">
+            Rate My Neta
+          </Link>
 
-        <div className="flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-300">
-          <Link href="/" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-            Leaderboard
-          </Link>
-          <Link href="/party" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-            Parties
-          </Link>
+          <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-white/90">
+            <Link href="/" className="hover:text-white transition-colors">
+              Leaderboard
+            </Link>
+            <Link href="/" className="hover:text-white transition-colors">
+              Politicians
+            </Link>
+            <Link href="/party" className="hover:text-white transition-colors">
+              Parties
+            </Link>
+            <Link href="/" className="hover:text-white transition-colors">
+              How It Works
+            </Link>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           <WalletButton />
         </div>
+      </div>
+
+      {/* Mobile navigation bar */}
+      <div className="md:hidden flex justify-around border-t border-white/10 py-2.5 text-xs font-semibold text-white/95 bg-[#c22121]">
+        <Link href="/" className="hover:text-white transition-colors">
+          Leaderboard
+        </Link>
+        <Link href="/" className="hover:text-white transition-colors">
+          Politicians
+        </Link>
+        <Link href="/party" className="hover:text-white transition-colors">
+          Parties
+        </Link>
+        <Link href="/" className="hover:text-white transition-colors">
+          How It Works
+        </Link>
       </div>
     </nav>
   );

@@ -16,8 +16,8 @@ function StarInput({ label, value, onChange, disabled }: StarInputProps) {
   const [hovered, setHovered] = useState(0);
   return (
     <div className="flex items-center gap-3">
-      <span className="w-32 text-sm text-gray-600 dark:text-gray-300">{label}</span>
-      <div className="flex gap-1">
+      <span className="w-36 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{label}</span>
+      <div className="flex gap-1.5">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
             key={star}
@@ -27,18 +27,18 @@ function StarInput({ label, value, onChange, disabled }: StarInputProps) {
             onMouseEnter={() => setHovered(star)}
             onMouseLeave={() => setHovered(0)}
             className={clsx(
-              "text-2xl transition-colors",
+              "text-2xl transition-all duration-150 transform hover:scale-110",
               disabled && "cursor-not-allowed opacity-50",
               (hovered || value) >= star
                 ? "text-yellow-400"
-                : "text-gray-300 dark:text-gray-600"
+                : "text-gray-300 dark:text-gray-600 hover:text-yellow-300/60"
             )}
           >
             ★
           </button>
         ))}
       </div>
-      <span className="text-sm text-gray-400">{value > 0 ? `${value}/5` : ""}</span>
+      <span className="text-xs font-bold text-gray-455">{value > 0 ? `${value}/5` : ""}</span>
     </div>
   );
 }
@@ -97,7 +97,7 @@ export function RatingForm({ onSubmit, disabled }: RatingFormProps) {
         disabled={disabled || submitting}
       />
       <StarInput
-        label="Overall"
+        label="Overall Score"
         value={values.overall}
         onChange={(v) => setValues((p) => ({ ...p, overall: v }))}
         disabled={disabled || submitting}
@@ -106,13 +106,13 @@ export function RatingForm({ onSubmit, disabled }: RatingFormProps) {
         type="submit"
         disabled={!isValid || submitting || disabled}
         className={clsx(
-          "w-full py-2.5 px-4 rounded-lg font-semibold text-white transition-colors",
+          "w-full py-3 px-4 rounded-full font-bold text-sm text-white transition-all cursor-pointer",
           isValid && !submitting && !disabled
-            ? "bg-indigo-600 hover:bg-indigo-700"
-            : "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
+            ? "bg-[#dc2626] hover:bg-[#b91c1c] shadow-sm"
+            : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
         )}
       >
-        {submitting ? "Submitting…" : "Submit Rating On-Chain"}
+        {submitting ? "Submitting to Solana..." : "Submit Rating On-Chain"}
       </button>
     </form>
   );

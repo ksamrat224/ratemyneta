@@ -56,7 +56,7 @@ export default function Home() {
       <div className="relative z-10">
         <Navbar />
 
-        <main className="max-w-6xl mx-auto px-4 py-10 space-y-10">
+        <main className="max-w-[1400px] mx-auto px-6 py-10 space-y-10">
           {/* Hero */}
           <section className="space-y-3">
             <div className="flex items-center justify-between flex-wrap gap-4">
@@ -88,7 +88,7 @@ export default function Home() {
             {sorted.length === 0 ? (
               <p className="text-center text-gray-400 py-10">No politicians match this filter.</p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {sorted.map((p, i) => (
                   <PoliticianCard
                     key={p.id}

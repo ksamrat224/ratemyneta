@@ -5,7 +5,7 @@ import { ThemeToggle } from "../theme-toggle";
 export function Navbar() {
   return (
     <nav className="sticky top-0 z-40 bg-[#dc2626] text-white shadow-sm border-b border-red-700/20">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-8">
           <Link href="/" className="font-black text-xl tracking-tight text-white shrink-0 hover:opacity-90 transition-opacity">
             Rate My Neta

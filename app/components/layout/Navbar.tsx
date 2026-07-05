@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { WalletButton } from "../wallet-button";
-import { ThemeToggle } from "../theme-toggle";
 
 export function Navbar() {
   return (
@@ -28,7 +27,6 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           <WalletButton />
         </div>
       </div>

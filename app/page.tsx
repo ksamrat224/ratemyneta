@@ -106,7 +106,6 @@ export default function Home() {
               Parliamentary data: Nepal Parliament public records · Poll data: Janamat ·
               Ratings: Solana devnet
             </p>
-            <p>Program: DMmHWdzTeZwChv2uZbdqCDRECkP2WBQFttfY7xJYvVB5</p>
           </footer>
         </main>
       </div>

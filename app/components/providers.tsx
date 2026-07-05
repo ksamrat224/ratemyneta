@@ -9,7 +9,7 @@ import { SolanaClientProvider } from "../lib/solana-client-context";
 
 export function Providers({ children }: PropsWithChildren) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
+    <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
       <ClusterProvider>
         <SolanaClientProvider>
           <WalletProvider>{children}</WalletProvider>

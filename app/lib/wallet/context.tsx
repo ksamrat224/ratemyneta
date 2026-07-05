@@ -42,7 +42,11 @@ const STORAGE_KEY = "solana:last-connector";
 
 export function WalletProvider({ children }: PropsWithChildren) {
   const { cluster } = useCluster();
-  const chain = `solana:${cluster}`;
+  // Wallet Standard only defines mainnet/devnet/testnet — localnet is not a registered chain.
+  // Map it to devnet so Phantom and other wallets will accept the sign request.
+  // The actual RPC endpoint used for sending still points to localhost:8899.
+  const walletChain = cluster === "localnet" ? "devnet" : cluster === "mainnet" ? "mainnet" : cluster;
+  const chain = `solana:${walletChain}`;
 
   const [connectors, setConnectors] = useState<WalletConnector[]>(() =>
     typeof window === "undefined" ? [] : discoverWallets()

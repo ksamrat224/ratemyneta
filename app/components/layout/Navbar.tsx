@@ -20,9 +20,7 @@ export function Navbar() {
             <Link href="/party" className="hover:text-white transition-colors">
               Parties
             </Link>
-            <Link href="/" className="hover:text-white transition-colors">
-              How It Works
-            </Link>
+            
           </div>
         </div>
 
@@ -42,9 +40,7 @@ export function Navbar() {
         <Link href="/party" className="hover:text-white transition-colors">
           Parties
         </Link>
-        <Link href="/" className="hover:text-white transition-colors">
-          How It Works
-        </Link>
+        
       </div>
     </nav>
   );

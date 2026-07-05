@@ -32,7 +32,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint",
-    "scrape": "npx ts-node scripts/scrape-janamat.ts",
+    "init-politicians": "npx tsx scripts/init-politicians.ts",
+    "scrape": "npx tsx scripts/scrape-janamat.ts",
     "setup": "npm run anchor-build && npm run codama:js",
     "start": "next start"
   },

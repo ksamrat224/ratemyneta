@@ -17,6 +17,8 @@ export interface Politician {
   electedYear: number;
   parliamentData: ParliamentData;
   relatedPollIds: number[];
+  tags?: string[];
+  imageUrl?: string;
 }
 
 export interface Party {

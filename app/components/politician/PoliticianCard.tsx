@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ScoreRing } from "./ScoreRing";
-import { PartyBadge } from "./PartyBadge";
 import { calcCompositeScore } from "@/app/data/scoring";
 import { getJanamatScore } from "@/app/data/politicians";
 import type { Politician } from "@/types";
@@ -9,6 +7,30 @@ interface PoliticianCardProps {
   politician: Politician;
   rank: number;
   avgStars: number;
+}
+
+const GRADE_COLORS: Record<string, string> = {
+  A: "bg-green-500",
+  B: "bg-blue-500",
+  C: "bg-yellow-500",
+  D: "bg-orange-500",
+  F: "bg-red-600",
+};
+
+const AVATAR_GRADIENTS = [
+  "from-red-400 to-rose-600",
+  "from-blue-400 to-indigo-600",
+  "from-emerald-400 to-teal-600",
+  "from-violet-400 to-purple-600",
+  "from-amber-400 to-orange-600",
+  "from-cyan-400 to-sky-600",
+  "from-pink-400 to-fuchsia-600",
+];
+
+// Fake-but-consistent rating counts derived from name
+function fakeRatingCount(name: string): string {
+  const n = (name.charCodeAt(0) * 137 + name.length * 53) % 120 + 10;
+  return n >= 100 ? `${(n / 10).toFixed(1)}k` : `${n}`;
 }
 
 export function PoliticianCard({ politician, rank, avgStars }: PoliticianCardProps) {
@@ -22,94 +44,101 @@ export function PoliticianCard({ politician, rank, avgStars }: PoliticianCardPro
     avgStars
   );
 
-  const initials = politician.name.split(" ").map((n) => n[0]).join("").slice(0, 2);
+  const initials = politician.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+  const gradientIdx = politician.name.charCodeAt(0) % AVATAR_GRADIENTS.length;
+  const gradient = AVATAR_GRADIENTS[gradientIdx];
+  const gradeColor = GRADE_COLORS[grade] ?? "bg-gray-400";
+  const ratingCount = fakeRatingCount(politician.name);
 
-  // Generate a realistic rating count based on the politician ID
-  const ratingCount = (politician.name.length * 7) % 80 + 35;
-
-  // Calculate bill pass rate
-  const passRate = pd.billsProposed > 0 
-    ? Math.round((pd.billsPassed / pd.billsProposed) * 100) 
-    : 0;
+  // Grade display: A+ for >90, A for >80, etc.
+  const gradeLabel = composite >= 90 ? `${grade}+` : composite >= 75 ? grade : composite >= 60 ? `${grade}-` : grade;
 
   return (
     <Link
       href={`/politician/${politician.id}`}
-      className="flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-gray-700/60 overflow-hidden hover:border-[#dc2626] dark:hover:border-red-500 transition-all duration-200 shadow-sm hover:shadow-md"
+      className="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
     >
-      {/* Photo/Avatar Banner Area */}
-      <div className="relative h-36 w-full bg-gradient-to-br from-red-500/10 to-violet-500/10 dark:from-red-500/20 dark:to-violet-500/20 flex items-center justify-center border-b border-gray-100 dark:border-gray-700/50 shrink-0">
-        {/* Initials Avatar */}
-        <div className="h-16 w-16 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center text-[#dc2626] dark:text-red-400 font-black text-xl border border-red-50 dark:border-gray-600">
+      {/* Photo / Avatar area */}
+      <div className={`relative h-48 w-full bg-linear-to-br ${gradient} flex items-center justify-center shrink-0`}>
+        {/* Initials avatar */}
+        <div className="h-20 w-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 flex items-center justify-center text-white font-black text-2xl shadow-lg select-none">
           {initials}
         </div>
 
-        {/* Small watermark/logo bottom-right corner of the image area */}
-        <div className="absolute bottom-2.5 right-2.5 bg-black/60 backdrop-blur-xs text-[9px] font-black text-white px-2 py-0.5 rounded-full uppercase tracking-wider select-none">
-          Rate My Neta
-        </div>
-
-        {/* Rank Badge top-left */}
-        <div className="absolute top-2.5 left-2.5 bg-[#dc2626] text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs">
-          #{rank}
+        {/* ACTIVE badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-green-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+          ACTIVE
         </div>
       </div>
 
-      {/* Card Content */}
-      <div className="p-4 flex-1 flex flex-col justify-between space-y-4 bg-white dark:bg-gray-800">
-        <div className="space-y-3.5">
-          {/* Row of small pill badges */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <PartyBadge partyId={politician.partyId} />
-            
-            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200/50 dark:border-gray-600/30">
-              📍 {politician.constituency}
-            </span>
+      {/* Card body */}
+      <div className="p-4 flex flex-col gap-3 flex-1">
+        {/* Bilingual name */}
+        <div>
+          <h3 className="text-base font-bold text-gray-900 leading-snug">
+            {politician.nameNepali}{" "}
+            <span className="text-gray-700">({politician.name})</span>
+          </h3>
+        </div>
 
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 border border-green-200/40 dark:border-green-900/30">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-              Active
-            </span>
+        {/* Location + Role */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1 text-xs text-gray-500">
+            <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {politician.constituency}
           </div>
-
-          {/* Bold bilingual name/headline */}
-          <div className="space-y-0.5">
-            <h3 className="text-[20px] font-black text-gray-900 dark:text-white leading-tight font-sans">
-              {politician.nameNepali}
-            </h3>
-            <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-              {politician.name}
-            </p>
-          </div>
-
-          {/* Metric option rows (styled like 2-option percentage bars) */}
-          <div className="space-y-2 pt-1.5">
-            {/* Attendance Metric */}
-            <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-gray-900/45 rounded-xl border border-gray-100 dark:border-gray-800/40">
-              <span className="font-semibold text-xs text-gray-700 dark:text-gray-300">Attendance</span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#dc2626] text-white select-none">
-                {pd.attendancePercent}% →
-              </span>
-            </div>
-
-            {/* Bills Passed Metric */}
-            <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-gray-900/45 rounded-xl border border-gray-100 dark:border-gray-800/40">
-              <span className="font-semibold text-xs text-gray-700 dark:text-gray-300">Bills Passed</span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#8b5cf6] text-white select-none">
-                {passRate}% →
-              </span>
-            </div>
+          <div className="flex items-center gap-1 text-xs text-gray-500">
+            <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <span className="inline-block bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[10px] font-medium">
+              {politician.role}
+            </span>
           </div>
         </div>
 
-        {/* Footer Row */}
-        <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700/50 text-[11px] text-gray-500 dark:text-gray-400">
-          <div className="flex items-center gap-1">
-            <span>👥</span>
+        {/* Attendance bar */}
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-xs text-gray-500">Attendance</span>
+            <span className="text-xs font-bold text-[#dc2626]">{pd.attendancePercent}%</span>
+          </div>
+          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#dc2626] rounded-full"
+              style={{ width: `${pd.attendancePercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Tags */}
+        {politician.tags && politician.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {politician.tags.slice(0, 2).map((tag) => (
+              <span
+                key={tag}
+                className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Footer: ratings + grade */}
+        <div className="flex items-center justify-between pt-2 border-t border-gray-100 mt-auto">
+          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
             <span className="font-medium">{ratingCount} ratings</span>
           </div>
-          <div className="font-bold text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 px-2 py-0.5 rounded text-[10px]">
-            Grade {grade}
+          <div className={`h-9 w-9 rounded-full ${gradeColor} flex items-center justify-center text-white text-xs font-black shadow-sm`}>
+            {gradeLabel}
           </div>
         </div>
       </div>

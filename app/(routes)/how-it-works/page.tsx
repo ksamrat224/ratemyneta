@@ -34,7 +34,7 @@ export default function HowItWorksPage() {
     <div className="min-h-screen bg-[#fafafa]">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-6 py-14 space-y-14">
+      <main className="max-w-6xl mx-auto  py-14 space-y-14">
         {/* Hero */}
         <section className="space-y-3">
           <h1 className="text-4xl font-black text-gray-900">How It Works</h1>
@@ -116,7 +116,7 @@ export default function HowItWorksPage() {
       </main>
 
       <footer className="border-t border-gray-200 bg-white mt-8">
-        <div className="max-w-300 mx-auto px-6 py-6 text-center text-xs text-gray-400">
+        <div className="max-w-300 mx-auto px-4 py-6 text-center text-xs text-gray-400">
           © 2024 Rate My Politician. Built on Solana.
         </div>
       </footer>

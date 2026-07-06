@@ -41,7 +41,7 @@ export default function PoliticiansPage() {
     <div className="min-h-screen bg-[#fafafa]">
       <Navbar />
 
-      <main className="max-w-300 mx-auto px-6 py-10 space-y-8">
+      <main className="max-w-400 mx-auto py-10 space-y-8">
         <div>
           <h1 className="text-3xl font-black text-gray-900">All Politicians</h1>
           <p className="text-gray-500 text-sm mt-1">{politicians.length} politicians tracked on-chain</p>
@@ -85,7 +85,7 @@ export default function PoliticiansPage() {
       </main>
 
       <footer className="border-t border-gray-200 bg-white mt-16">
-        <div className="max-w-300 mx-auto px-6 py-6 text-center text-xs text-gray-400">
+        <div className="max-w-300 mx-auto px-4 py-6 text-center text-xs text-gray-400">
           © 2024 Rate My Politician. Built on Solana.
         </div>
       </footer>

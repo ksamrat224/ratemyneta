@@ -33,6 +33,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint",
     "init-politicians": "npx tsx scripts/init-politicians.ts",
+    "init-parties": "npx tsx scripts/init-parties.ts",
     "scrape": "npx tsx scripts/scrape-janamat.ts",
     "setup": "npm run anchor-build && npm run codama:js",
     "start": "next start"
@@ -45,6 +46,7 @@
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
+    "@zk-kit/poseidon-cipher": "^0.3.2",
     "axios": "^1.18.1",
     "clsx": "^2.1.1",
     "next": "16.2.6",

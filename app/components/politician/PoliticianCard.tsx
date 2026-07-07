@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { calcCompositeScore } from "@/app/data/scoring";
 import { getJanamatScore } from "@/app/data/politicians";
 import type { Politician } from "@/types";
@@ -59,11 +60,20 @@ export function PoliticianCard({ politician, rank, avgStars }: PoliticianCardPro
       className="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
     >
       {/* Photo / Avatar area */}
-      <div className={`relative h-48 w-full bg-linear-to-br ${gradient} flex items-center justify-center shrink-0`}>
-        {/* Initials avatar */}
-        <div className="h-20 w-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 flex items-center justify-center text-white font-black text-2xl shadow-lg select-none">
-          {initials}
-        </div>
+      <div className={`relative h-48 w-full bg-linear-to-br ${gradient} flex items-center justify-center shrink-0 overflow-hidden`}>
+        {politician.imageUrl ? (
+          <Image
+            src={politician.imageUrl}
+            alt={politician.name}
+            fill
+            sizes="(max-width: 640px) 100vw, 33vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="h-20 w-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 flex items-center justify-center text-white font-black text-2xl shadow-lg select-none">
+            {initials}
+          </div>
+        )}
 
         {/* ACTIVE badge */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-green-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">

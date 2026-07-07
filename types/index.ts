@@ -87,6 +87,23 @@ export interface PoliticianAverages {
   totalRatings: number;
 }
 
+export interface PartyRatingFormValues {
+  development: number;
+  antiCorruption: number;
+  popularity: number;
+  reformEffort: number;
+  governance: number;
+}
+
+export interface PartyAverages {
+  development: number;
+  antiCorruption: number;
+  popularity: number;
+  reformEffort: number;
+  governance: number;
+  totalRatings: number;
+}
+
 export type SortKey = 'score' | 'attendance' | 'bills' | 'approval';
 
 export type Grade = 'A' | 'B' | 'C' | 'D' | 'F';

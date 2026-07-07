@@ -1,165 +1,191 @@
-# nextjs-anchor
+# Rate My Neta 🇳🇵
 
-Next.js starter with Tailwind CSS, `@solana/kit`, and an Anchor vault program example.
+**Civic accountability dApp for Nepal, built on Solana.** Citizens rate politicians and political parties on integrity, performance, and reform impact. Ratings are immutable on-chain aggregates; anonymous voting is enforced with ZK Poseidon nullifiers so nobody can double-vote — and nobody has to attach their identity to a rating.
 
-## Getting Started
+## Features
 
-```shell
-npx -y create-solana-dapp@latest -t solana-foundation/templates/kit/nextjs-anchor
-```
-
-```shell
-npm install
-npm run setup   # Builds the Anchor program and generates the TypeScript client
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000), connect your wallet, and interact with the vault.
-
-## What's Included
-
-- **Wallet connection** via wallet-standard with auto-discovery and dropdown UI
-- **Cluster switching** — devnet, testnet, mainnet, and localnet from the header
-- **Wallet balance** display with airdrop button (devnet/testnet/localnet)
-- **SOL Vault program** — deposit and withdraw SOL from a personal PDA vault
-- **Toast notifications** with explorer links for every transaction
-- **Error handling** — human-readable messages for common Solana and program errors
-- **Codama-generated client** — type-safe program interactions using `@solana/kit`
-- **Tailwind CSS v4** with light/dark mode toggle
+- **Politician ratings** — 4 categories (integrity, work ethic, promises kept, overall), 1 rating per wallet per politician, 24h update window
+- **Party ratings** — 5 categories (development, anti-corruption, popularity, reform effort, governance)
+- **Anonymous (ZK) ratings** — wallet signs a fixed message off-chain, a Poseidon nullifier is derived and stored on-chain instead of the voter's address; a reused nullifier is rejected by the program (double-vote prevention without identity)
+- **Composite scoring** — on-chain community ratings blended with objective data (parliament attendance, bills, Janamat poll sentiment, corruption records)
+- **Live civic data** — leaderboards, party comparison, per-party legislative performance
 
 ## Stack
 
-| Layer          | Technology                       |
-| -------------- | -------------------------------- |
-| Frontend       | Next.js 16, React 19, TypeScript |
-| Styling        | Tailwind CSS v4                  |
-| Solana Client  | `@solana/kit`, wallet-standard   |
-| Program Client | Codama-generated, `@solana/kit`  |
-| Program        | Anchor (Rust)                    |
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16 (App Router), React 19, Tailwind CSS v4 |
+| Solana client | `@solana/kit` + wallet-standard (no `@solana/web3.js`) |
+| Program client | Codama-generated from the Anchor IDL (`app/generated/`) |
+| On-chain program | Anchor — `anchor/programs/rate-my-politician/` |
+| ZK hashing | `@zk-kit/poseidon-cipher` (Poseidon nullifiers) |
+| Data fetching | SWR (30s polling of on-chain aggregates) |
+
+## Prerequisites
+
+- Node.js 20+
+- [Rust](https://rustup.rs/), [Solana CLI](https://solana.com/docs/intro/installation), [Anchor](https://www.anchor-lang.com/docs/installation)
+- A Solana wallet browser extension (Phantom, Solflare, …) — anonymous mode needs message-signing support (Phantom has it)
+
+## Setup & Run (localnet)
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Build the Anchor program + generate the TypeScript client
+npm run setup          # = anchor build + codama:js
+
+# 3. Start a local validator (separate terminal, keep running)
+solana-test-validator
+
+# 4. Deploy the program to localnet
+solana config set --url localhost
+cd anchor && anchor deploy && cd ..
+
+# 5. Initialize on-chain accounts (one PDA per politician/party)
+npm run init-politicians
+npm run init-parties
+
+# 6. Pull Janamat poll sentiment data
+npm run scrape
+
+# 7. Run the app
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000), switch the cluster selector to **localnet**, connect your wallet, and rate.
+
+> **If you restart `solana-test-validator`**, all state is wiped: re-run `anchor deploy`, `npm run init-politicians`, and `npm run init-parties`.
+
+## npm Scripts
+
+| Script | What it does |
+|---|---|
+| `npm run dev` | Next.js dev server |
+| `npm run setup` | `anchor build` + regenerate TypeScript client via Codama |
+| `npm run codama:js` | Regenerate `app/generated/` only (after IDL changes) |
+| `npm run init-politicians` | Create `PoliticianAccount` PDAs (one per politician in `app/data/politicians.ts`) |
+| `npm run init-parties` | Create `PartyAccount` PDAs (one per party in `app/data/parties.ts`) |
+| `npm run scrape` | Fetch Janamat polls → `app/data/janamat-scores.json` |
+| `npm run anchor-test` | Program tests (LiteSVM) |
+| `npm run build` | Production build |
+
+## Architecture
+
+```
+┌───────────────────────────  Browser  ────────────────────────────┐
+│  Next.js App Router pages                                        │
+│   /  /politicians  /party  /party/[id]  /politician/[id]         │
+│        │                                                         │
+│        ├── RatingForm / PartyRatingForm ── ZkModeToggle          │
+│        │        │                              │                 │
+│        │   Public mode                   Anonymous mode          │
+│        │        │                              │                 │
+│        │  use-ratings.ts              use-zk-rating.ts           │
+│        │  use-party-ratings.ts        └─ zk/nullifier.ts         │
+│        │        │                        (signMessage →          │
+│        │        │                         Poseidon nullifier)    │
+│        │        └────────┬────────────────────┘                  │
+│        │                 ▼                                       │
+│        │        useSendTransaction  ◄── wallet-standard          │
+│        │                 │              (Phantom, Solflare…)     │
+│        │        Codama-generated client (app/generated/)         │
+└────────┼─────────────────┼───────────────────────────────────────┘
+         │                 ▼  RPC (@solana/kit)
+         │   ┌─────────  Solana cluster  ─────────────────┐
+         │   │  rate-my-politician program (Anchor)       │
+         │   │   PoliticianAccount   PartyAccount         │
+         │   │   RatingAccount       PartyRatingAccount   │
+         │   │   NullifierAccount    AnonRatingAccount(s) │
+         │   └────────────────────────────────────────────┘
+         ▼
+  Curated off-chain data (app/data/): politicians.ts, parties.ts,
+  janamat-scores.json (npm run scrape), scoring algorithms
+```
+
+**Data flow in one sentence:** curated facts live in `app/data/`, citizen ratings live on-chain in PDAs, and pages blend both at render time (SWR polls the chain every 30s; composite scores are computed client-side).
+
+**PDA initialization:** rating instructions require the target's aggregate account (`PoliticianAccount` / `PartyAccount`) to already exist — that's what `scripts/init-politicians.ts` and `scripts/init-parties.ts` do. Both are idempotent (already-initialized PDAs are skipped) and sign with your local Solana CLI keypair (`~/.config/solana/id.json`) as authority. Run them once per cluster, and again any time you wipe the local validator.
+
+## How Anonymous (ZK) Rating Works
+
+1. You pick **🛡 Anonymous (ZK)** in the rating form
+2. Your wallet signs the fixed message `"rate-my-neta-v1"` — off-chain, free, deterministic
+3. The frontend computes `nullifier = Poseidon(sha256(signature), sha256(target_id))` (`app/lib/zk/nullifier.ts`)
+4. If a `NullifierAccount` PDA for that nullifier exists, you're told you already rated — otherwise the `submit_rating_anonymous` transaction is sent
+5. The program stores the nullifier + rating; the rating account contains **no wallet address**
+6. Same wallet + same target always derives the same nullifier → a second attempt fails on-chain
+
+**Phase 1 caveat:** the transaction fee payer is still visible on-chain. The rating is unlinked from your address, but full unlinkability needs a burner wallet/relayer (or the planned Light Protocol Phase 2 — see `requirements.md`).
+
+## Program Accounts
+
+| Account | PDA seeds | Purpose |
+|---|---|---|
+| `PoliticianAccount` | `["politician", id]` | Aggregate rating sums |
+| `RatingAccount` | `["rating", id, voter]` | One public rating per wallet |
+| `PartyAccount` | `["party", id]` | Aggregate party sums |
+| `PartyRatingAccount` | `["party_rating", id, voter]` | One public party rating per wallet |
+| `NullifierAccount` | `["nullifier", nullifier]` | Double-vote guard (shared namespace) |
+| `AnonRatingAccount` | `["anon_rating", nullifier]` | Anonymous politician rating |
+| `AnonPartyRatingAccount` | `["anon_party_rating", nullifier]` | Anonymous party rating |
 
 ## Project Structure
 
 ```
 ├── app/
+│   ├── (routes)/
+│   │   ├── politician/[id]/    # Politician profile + rating form
+│   │   ├── party/              # Party list + compare
+│   │   └── party/[id]/         # Party profile + rating form
 │   ├── components/
-│   │   ├── cluster-context.tsx  # Cluster state (React context + localStorage)
-│   │   ├── cluster-select.tsx   # Cluster switcher dropdown
-│   │   ├── grid-background.tsx  # Solana-branded decorative grid
-│   │   ├── providers.tsx        # Wallet + theme providers
-│   │   ├── theme-toggle.tsx     # Light/dark mode toggle
-│   │   ├── vault-card.tsx       # Vault deposit/withdraw UI
-│   │   └── wallet-button.tsx    # Wallet connect/disconnect dropdown
-│   ├── generated/vault/        # Codama-generated program client
-│   ├── lib/
-│   │   ├── wallet/             # Wallet-standard connection layer
-│   │   │   ├── types.ts        # Wallet types
-│   │   │   ├── standard.ts     # Wallet discovery + session creation
-│   │   │   ├── signer.ts       # WalletSession → TransactionSigner
-│   │   │   └── context.tsx     # WalletProvider + useWallet() hook
-│   │   ├── hooks/
-│   │   │   ├── use-balance.ts  # SWR-based balance fetching
-│   │   │   └── use-send-transaction.ts  # Transaction send with loading state
-│   │   ├── cluster.ts          # Cluster endpoints + RPC factory
-│   │   ├── lamports.ts         # SOL/lamports conversion
-│   │   ├── send-transaction.ts # Transaction build + sign + send pipeline
-│   │   ├── errors.ts           # Transaction error parsing
-│   │   └── explorer.ts         # Explorer URL builder + address helpers
-│   └── page.tsx                # Main page
-├── anchor/                     # Anchor workspace
-│   └── programs/vault/         # Vault program (Rust)
-└── codama.json                 # Codama client generation config
+│   │   ├── politician/RatingForm.tsx     # 4-category form + ZK toggle
+│   │   ├── party/PartyRatingForm.tsx     # 5-category form + ZK toggle
+│   │   └── zk/ZkModeToggle.tsx           # Public / Anonymous switch
+│   ├── data/                   # Curated JSON/TS data (politicians, parties, scoring)
+│   ├── generated/              # Codama client — NEVER edit by hand
+│   └── lib/
+│       ├── hooks/use-ratings.ts        # Public politician rating hook
+│       ├── hooks/use-party-ratings.ts  # Public party rating hook
+│       ├── hooks/use-zk-rating.ts      # Anonymous (nullifier) rating hooks
+│       ├── zk/nullifier.ts             # Poseidon nullifier derivation
+│       └── wallet/                     # wallet-standard connection + signMessage
+├── anchor/programs/rate-my-politician/ # Anchor program (Rust)
+├── scripts/                    # init-politicians, scrape-janamat, …
+└── requirements.md             # Full product + data spec
 ```
 
-## Local Development
-
-To test against a local validator instead of devnet:
-
-1. **Start a local validator**
-
-   ```bash
-   solana-test-validator
-   ```
-
-2. **Deploy the program locally**
-
-   ```bash
-   solana config set --url localhost
-   cd anchor
-   anchor build
-   anchor deploy
-   cd ..
-   npm run codama:js   # Regenerate client with local program ID
-   ```
-
-3. **Switch to localnet** in the app using the cluster selector in the header.
-
-## Deploy Your Own Vault
-
-The included vault program is already deployed to devnet. To deploy your own:
-
-### Prerequisites
-
-- [Rust](https://rustup.rs/)
-- [Solana CLI](https://solana.com/docs/intro/installation)
-- [Anchor](https://www.anchor-lang.com/docs/installation)
-
-### Steps
-
-1. **Configure Solana CLI for devnet**
-
-   ```bash
-   solana config set --url devnet
-   ```
-
-2. **Create a wallet (if needed) and fund it**
-
-   ```bash
-   solana-keygen new
-   solana airdrop 2
-   ```
-
-3. **Build and deploy the program**
-
-   ```bash
-   cd anchor
-   anchor build
-   anchor keys sync    # Updates program ID in source
-   anchor build        # Rebuild with new ID
-   anchor deploy
-   cd ..
-   ```
-
-4. **Regenerate the client and restart**
-   ```bash
-   npm run setup   # Rebuilds program and regenerates client
-   npm run dev
-   ```
-
-## Testing
-
-Tests use [LiteSVM](https://github.com/LiteSVM/litesvm), a fast lightweight Solana VM for testing.
+## Deploying to Devnet
 
 ```bash
-npm run anchor-build   # Build the program first
-npm run anchor-test    # Run tests
+solana config set --url devnet
+solana airdrop 2
+cd anchor
+anchor build
+anchor keys sync      # sync program ID into source
+anchor build          # rebuild with the new ID
+anchor deploy
+cd ..
+npm run codama:js     # regenerate client for the new program ID
+npm run init-politicians
+npm run init-parties
 ```
 
-The tests are in `anchor/programs/vault/src/tests.rs` and automatically use the program ID from `declare_id!`.
+> Note: the init scripts point at `http://127.0.0.1:8899` — change `RPC_URL` at the top of `scripts/init-*.ts` to `https://api.devnet.solana.com` when initializing on devnet.
 
-## Regenerating the Client
+Then select **devnet** in the app's cluster switcher.
 
-If you modify the program, regenerate the TypeScript client:
+## Modifying the Program
+
+After any change to `anchor/programs/rate-my-politician/src/lib.rs`:
 
 ```bash
-npm run setup   # Or: npm run anchor-build && npm run codama:js
+npm run setup        # rebuild + regenerate the TypeScript client
 ```
 
-This uses [Codama](https://github.com/codama-idl/codama) to generate a type-safe client from the Anchor IDL.
+Never hand-edit `app/generated/` — it is overwritten by Codama.
 
-## Learn More
+## Data Sources
 
-- [Solana Docs](https://solana.com/docs) — core concepts and guides
-- [Anchor Docs](https://www.anchor-lang.com/docs/introduction) — program development framework
-- [Deploying Programs](https://solana.com/docs/programs/deploying) — deployment guide
-- [@solana/kit](https://github.com/anza-xyz/kit) — Solana JavaScript SDK
-- [Codama](https://github.com/codama-idl/codama) — client generation from IDL
+Curated off-chain data (see `requirements.md` for full schemas): [Jawafdehi](https://jawafdehi.org) (CIAA cases), [Digital Pratipakshya](https://digitalpratipakshya.com/gov-monitoring) (parliament attendance), [Election Commission Nepal](https://election.gov.np), Janamat polls API.

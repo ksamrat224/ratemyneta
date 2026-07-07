@@ -1,8 +1,18 @@
 import type { Politician } from '@/types';
 import janamatScores from './janamat-scores.json';
+import relatedPolls from './related-polls.json';
 
 export function getJanamatScore(id: string): number {
   return (janamatScores as Record<string, number>)[id] ?? 50;
+}
+
+/**
+ * Poll IDs matched by `npm run scrape` (keyword match against politician name),
+ * merged with any manually curated IDs on the politician record itself.
+ */
+export function getRelatedPollIds(politician: Politician): number[] {
+  const scraped = (relatedPolls as Record<string, number[]>)[politician.id] ?? [];
+  return Array.from(new Set([...politician.relatedPollIds, ...scraped]));
 }
 
 export const politicians: Politician[] = [
@@ -23,6 +33,7 @@ export const politicians: Politician[] = [
     id: 'rabi-lamichhane',
     name: 'Rabi Lamichhane',
     nameNepali: 'रबि लामिछाने',
+    imageUrl: '/rabilamichhane.png',
     party: 'Rastriya Swatantra Party',
     partyId: 'rsn',
     role: 'Member of Parliament',
@@ -49,6 +60,7 @@ export const politicians: Politician[] = [
     id: 'bhishmaraj-aangdambe',
     name: 'Bhishmaraj Aangdambe',
     nameNepali: 'भीष्मराज आङदम्बे',
+    imageUrl: '/bhismarajandembe.png',
     party: 'Rastriya Swatantra Party',
     partyId: 'rsn',
     role: 'Member of Parliament',
@@ -88,6 +100,7 @@ export const politicians: Politician[] = [
     id: 'sudan-gurung',
     name: 'Sudan Gurung',
     nameNepali: 'सुदन गुरुङ',
+    imageUrl: '/sudangurung.png',
     party: 'Nepali Congress',
     partyId: 'nc',
     role: 'Member of Parliament',
@@ -101,6 +114,7 @@ export const politicians: Politician[] = [
     id: 'pushpa-kamal-dahal',
     name: 'Pushpa Kamal Dahal',
     nameNepali: 'पुष्पकमल दाहाल',
+    imageUrl: '/pushpakamalthapa.png',
     party: 'CPN (Maoist Centre)',
     partyId: 'cpn_mc',
     role: 'Former Prime Minister',
@@ -114,6 +128,7 @@ export const politicians: Politician[] = [
     id: 'kp-sharma-oli',
     name: 'KP Sharma Oli',
     nameNepali: 'केपी शर्मा ओली',
+    imageUrl: '/kpoli.png',
     party: 'CPN (UML)',
     partyId: 'cpn_uml',
     role: 'Prime Minister',
@@ -127,6 +142,7 @@ export const politicians: Politician[] = [
     id: 'sher-bahadur-deuba',
     name: 'Sher Bahadur Deuba',
     nameNepali: 'शेरबहादुर देउवा',
+    imageUrl: '/sherbahadurdeuba.png',
     party: 'Nepali Congress',
     partyId: 'nc',
     role: 'Former Prime Minister',
@@ -244,6 +260,7 @@ export const politicians: Politician[] = [
     id: 'gagan-thapa',
     name: 'Gagan Thapa',
     nameNepali: 'गगन थापा',
+    imageUrl: '/gaganthapa.png',
     party: 'Nepali Congress',
     partyId: 'nc',
     role: 'Member of Parliament',

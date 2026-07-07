@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "./components/layout/Navbar";
 import { politicians } from "./data/politicians";
 import { parties } from "./data/parties";
@@ -330,12 +331,18 @@ export default function Home() {
               <Link href={`/politician/${p.id}`} key={p.id}>
                 <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md hover:border-[#dc2626]/40 transition-all flex items-center gap-4 group">
                   {/* Avatar */}
-                  <div
-                    className="h-14 w-14 rounded-xl shrink-0 flex items-center justify-center font-black text-white text-xl"
-                    style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
-                  >
-                    {p.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                  </div>
+                  {p.imageUrl ? (
+                    <div className="relative h-14 w-14 rounded-xl shrink-0 overflow-hidden">
+                      <Image src={p.imageUrl} alt={p.name} fill sizes="56px" className="object-cover" />
+                    </div>
+                  ) : (
+                    <div
+                      className="h-14 w-14 rounded-xl shrink-0 flex items-center justify-center font-black text-white text-xl"
+                      style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
+                    >
+                      {p.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                    </div>
+                  )}
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">

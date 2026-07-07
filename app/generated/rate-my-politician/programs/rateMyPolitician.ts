@@ -17,11 +17,21 @@ import {
   type ReadonlyUint8Array,
 } from "@solana/kit";
 import {
+  parseInitializePartyInstruction,
   parseInitializePoliticianInstruction,
+  parseSubmitPartyRatingAnonymousInstruction,
+  parseSubmitPartyRatingInstruction,
+  parseSubmitRatingAnonymousInstruction,
   parseSubmitRatingInstruction,
+  parseUpdatePartyRatingInstruction,
   parseUpdateRatingInstruction,
+  type ParsedInitializePartyInstruction,
   type ParsedInitializePoliticianInstruction,
+  type ParsedSubmitPartyRatingAnonymousInstruction,
+  type ParsedSubmitPartyRatingInstruction,
+  type ParsedSubmitRatingAnonymousInstruction,
   type ParsedSubmitRatingInstruction,
+  type ParsedUpdatePartyRatingInstruction,
   type ParsedUpdateRatingInstruction,
 } from "../instructions";
 
@@ -29,6 +39,11 @@ export const RATE_MY_POLITICIAN_PROGRAM_ADDRESS =
   "DMmHWdzTeZwChv2uZbdqCDRECkP2WBQFttfY7xJYvVB5" as Address<"DMmHWdzTeZwChv2uZbdqCDRECkP2WBQFttfY7xJYvVB5">;
 
 export enum RateMyPoliticianAccount {
+  AnonPartyRatingAccount,
+  AnonRatingAccount,
+  NullifierAccount,
+  PartyAccount,
+  PartyRatingAccount,
   PoliticianAccount,
   RatingAccount,
 }
@@ -37,6 +52,61 @@ export function identifyRateMyPoliticianAccount(
   account: { data: ReadonlyUint8Array } | ReadonlyUint8Array,
 ): RateMyPoliticianAccount {
   const data = "data" in account ? account.data : account;
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([57, 235, 138, 15, 81, 233, 136, 250]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianAccount.AnonPartyRatingAccount;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([137, 156, 219, 253, 242, 165, 91, 108]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianAccount.AnonRatingAccount;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([250, 31, 238, 177, 213, 98, 48, 172]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianAccount.NullifierAccount;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([49, 70, 136, 122, 206, 186, 213, 229]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianAccount.PartyAccount;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([227, 17, 199, 127, 171, 246, 77, 23]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianAccount.PartyRatingAccount;
+  }
   if (
     containsBytes(
       data,
@@ -65,8 +135,13 @@ export function identifyRateMyPoliticianAccount(
 }
 
 export enum RateMyPoliticianInstruction {
+  InitializeParty,
   InitializePolitician,
+  SubmitPartyRating,
+  SubmitPartyRatingAnonymous,
   SubmitRating,
+  SubmitRatingAnonymous,
+  UpdatePartyRating,
   UpdateRating,
 }
 
@@ -74,6 +149,17 @@ export function identifyRateMyPoliticianInstruction(
   instruction: { data: ReadonlyUint8Array } | ReadonlyUint8Array,
 ): RateMyPoliticianInstruction {
   const data = "data" in instruction ? instruction.data : instruction;
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([139, 249, 155, 19, 94, 156, 242, 167]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianInstruction.InitializeParty;
+  }
   if (
     containsBytes(
       data,
@@ -89,12 +175,56 @@ export function identifyRateMyPoliticianInstruction(
     containsBytes(
       data,
       fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([95, 125, 83, 108, 116, 160, 66, 54]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianInstruction.SubmitPartyRating;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([143, 185, 179, 165, 124, 41, 62, 48]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianInstruction.SubmitPartyRatingAnonymous;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
         new Uint8Array([238, 207, 253, 243, 170, 69, 73, 199]),
       ),
       0,
     )
   ) {
     return RateMyPoliticianInstruction.SubmitRating;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([132, 115, 174, 93, 117, 96, 84, 97]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianInstruction.SubmitRatingAnonymous;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([146, 8, 232, 18, 185, 209, 142, 118]),
+      ),
+      0,
+    )
+  ) {
+    return RateMyPoliticianInstruction.UpdatePartyRating;
   }
   if (
     containsBytes(
@@ -116,11 +246,26 @@ export type ParsedRateMyPoliticianInstruction<
   TProgram extends string = "DMmHWdzTeZwChv2uZbdqCDRECkP2WBQFttfY7xJYvVB5",
 > =
   | ({
+      instructionType: RateMyPoliticianInstruction.InitializeParty;
+    } & ParsedInitializePartyInstruction<TProgram>)
+  | ({
       instructionType: RateMyPoliticianInstruction.InitializePolitician;
     } & ParsedInitializePoliticianInstruction<TProgram>)
   | ({
+      instructionType: RateMyPoliticianInstruction.SubmitPartyRating;
+    } & ParsedSubmitPartyRatingInstruction<TProgram>)
+  | ({
+      instructionType: RateMyPoliticianInstruction.SubmitPartyRatingAnonymous;
+    } & ParsedSubmitPartyRatingAnonymousInstruction<TProgram>)
+  | ({
       instructionType: RateMyPoliticianInstruction.SubmitRating;
     } & ParsedSubmitRatingInstruction<TProgram>)
+  | ({
+      instructionType: RateMyPoliticianInstruction.SubmitRatingAnonymous;
+    } & ParsedSubmitRatingAnonymousInstruction<TProgram>)
+  | ({
+      instructionType: RateMyPoliticianInstruction.UpdatePartyRating;
+    } & ParsedUpdatePartyRatingInstruction<TProgram>)
   | ({
       instructionType: RateMyPoliticianInstruction.UpdateRating;
     } & ParsedUpdateRatingInstruction<TProgram>);
@@ -130,6 +275,13 @@ export function parseRateMyPoliticianInstruction<TProgram extends string>(
 ): ParsedRateMyPoliticianInstruction<TProgram> {
   const instructionType = identifyRateMyPoliticianInstruction(instruction);
   switch (instructionType) {
+    case RateMyPoliticianInstruction.InitializeParty: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: RateMyPoliticianInstruction.InitializeParty,
+        ...parseInitializePartyInstruction(instruction),
+      };
+    }
     case RateMyPoliticianInstruction.InitializePolitician: {
       assertIsInstructionWithAccounts(instruction);
       return {
@@ -137,11 +289,39 @@ export function parseRateMyPoliticianInstruction<TProgram extends string>(
         ...parseInitializePoliticianInstruction(instruction),
       };
     }
+    case RateMyPoliticianInstruction.SubmitPartyRating: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: RateMyPoliticianInstruction.SubmitPartyRating,
+        ...parseSubmitPartyRatingInstruction(instruction),
+      };
+    }
+    case RateMyPoliticianInstruction.SubmitPartyRatingAnonymous: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: RateMyPoliticianInstruction.SubmitPartyRatingAnonymous,
+        ...parseSubmitPartyRatingAnonymousInstruction(instruction),
+      };
+    }
     case RateMyPoliticianInstruction.SubmitRating: {
       assertIsInstructionWithAccounts(instruction);
       return {
         instructionType: RateMyPoliticianInstruction.SubmitRating,
         ...parseSubmitRatingInstruction(instruction),
+      };
+    }
+    case RateMyPoliticianInstruction.SubmitRatingAnonymous: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: RateMyPoliticianInstruction.SubmitRatingAnonymous,
+        ...parseSubmitRatingAnonymousInstruction(instruction),
+      };
+    }
+    case RateMyPoliticianInstruction.UpdatePartyRating: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: RateMyPoliticianInstruction.UpdatePartyRating,
+        ...parseUpdatePartyRatingInstruction(instruction),
       };
     }
     case RateMyPoliticianInstruction.UpdateRating: {

@@ -6,5 +6,10 @@
  * @see https://github.com/codama-idl/codama
  */
 
+export * from "./anonPartyRatingAccount";
+export * from "./anonRatingAccount";
+export * from "./nullifierAccount";
+export * from "./partyAccount";
+export * from "./partyRatingAccount";
 export * from "./politicianAccount";
 export * from "./ratingAccount";

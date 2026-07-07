@@ -38,30 +38,34 @@ import {
   type WritableAccount,
   type WritableSignerAccount,
 } from "@solana/kit";
-import { findPoliticianAccountPda, findRatingAccountPda } from "../pdas";
+import {
+  findAnonRatingAccountPda,
+  findNullifierAccountPda,
+  findPoliticianAccountPda,
+} from "../pdas";
 import { RATE_MY_POLITICIAN_PROGRAM_ADDRESS } from "../programs";
 import {
-  expectAddress,
   expectSome,
   getAccountMetaFactory,
   type ResolvedAccount,
 } from "../shared";
 
-export const SUBMIT_RATING_DISCRIMINATOR = new Uint8Array([
-  238, 207, 253, 243, 170, 69, 73, 199,
+export const SUBMIT_RATING_ANONYMOUS_DISCRIMINATOR = new Uint8Array([
+  132, 115, 174, 93, 117, 96, 84, 97,
 ]);
 
-export function getSubmitRatingDiscriminatorBytes() {
+export function getSubmitRatingAnonymousDiscriminatorBytes() {
   return fixEncoderSize(getBytesEncoder(), 8).encode(
-    SUBMIT_RATING_DISCRIMINATOR,
+    SUBMIT_RATING_ANONYMOUS_DISCRIMINATOR,
   );
 }
 
-export type SubmitRatingInstruction<
+export type SubmitRatingAnonymousInstruction<
   TProgram extends string = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
-  TAccountVoter extends string | AccountMeta<string> = string,
+  TAccountPayer extends string | AccountMeta<string> = string,
   TAccountPoliticianAccount extends string | AccountMeta<string> = string,
-  TAccountRatingAccount extends string | AccountMeta<string> = string,
+  TAccountNullifierAccount extends string | AccountMeta<string> = string,
+  TAccountAnonRatingAccount extends string | AccountMeta<string> = string,
   TAccountSystemProgram extends string | AccountMeta<string> =
     "11111111111111111111111111111111",
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
@@ -69,16 +73,19 @@ export type SubmitRatingInstruction<
   InstructionWithData<ReadonlyUint8Array> &
   InstructionWithAccounts<
     [
-      TAccountVoter extends string
-        ? WritableSignerAccount<TAccountVoter> &
-            AccountSignerMeta<TAccountVoter>
-        : TAccountVoter,
+      TAccountPayer extends string
+        ? WritableSignerAccount<TAccountPayer> &
+            AccountSignerMeta<TAccountPayer>
+        : TAccountPayer,
       TAccountPoliticianAccount extends string
         ? WritableAccount<TAccountPoliticianAccount>
         : TAccountPoliticianAccount,
-      TAccountRatingAccount extends string
-        ? WritableAccount<TAccountRatingAccount>
-        : TAccountRatingAccount,
+      TAccountNullifierAccount extends string
+        ? WritableAccount<TAccountNullifierAccount>
+        : TAccountNullifierAccount,
+      TAccountAnonRatingAccount extends string
+        ? WritableAccount<TAccountAnonRatingAccount>
+        : TAccountAnonRatingAccount,
       TAccountSystemProgram extends string
         ? ReadonlyAccount<TAccountSystemProgram>
         : TAccountSystemProgram,
@@ -86,41 +93,48 @@ export type SubmitRatingInstruction<
     ]
   >;
 
-export type SubmitRatingInstructionData = {
+export type SubmitRatingAnonymousInstructionData = {
   discriminator: ReadonlyUint8Array;
   politicianId: string;
+  nullifier: ReadonlyUint8Array;
   integrity: number;
   workEthic: number;
   promisesKept: number;
   overall: number;
 };
 
-export type SubmitRatingInstructionDataArgs = {
+export type SubmitRatingAnonymousInstructionDataArgs = {
   politicianId: string;
+  nullifier: ReadonlyUint8Array;
   integrity: number;
   workEthic: number;
   promisesKept: number;
   overall: number;
 };
 
-export function getSubmitRatingInstructionDataEncoder(): Encoder<SubmitRatingInstructionDataArgs> {
+export function getSubmitRatingAnonymousInstructionDataEncoder(): Encoder<SubmitRatingAnonymousInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
       ["politicianId", addEncoderSizePrefix(getUtf8Encoder(), getU32Encoder())],
+      ["nullifier", fixEncoderSize(getBytesEncoder(), 32)],
       ["integrity", getU8Encoder()],
       ["workEthic", getU8Encoder()],
       ["promisesKept", getU8Encoder()],
       ["overall", getU8Encoder()],
     ]),
-    (value) => ({ ...value, discriminator: SUBMIT_RATING_DISCRIMINATOR }),
+    (value) => ({
+      ...value,
+      discriminator: SUBMIT_RATING_ANONYMOUS_DISCRIMINATOR,
+    }),
   );
 }
 
-export function getSubmitRatingInstructionDataDecoder(): Decoder<SubmitRatingInstructionData> {
+export function getSubmitRatingAnonymousInstructionDataDecoder(): Decoder<SubmitRatingAnonymousInstructionData> {
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
     ["politicianId", addDecoderSizePrefix(getUtf8Decoder(), getU32Decoder())],
+    ["nullifier", fixDecoderSize(getBytesDecoder(), 32)],
     ["integrity", getU8Decoder()],
     ["workEthic", getU8Decoder()],
     ["promisesKept", getU8Decoder()],
@@ -128,53 +142,60 @@ export function getSubmitRatingInstructionDataDecoder(): Decoder<SubmitRatingIns
   ]);
 }
 
-export function getSubmitRatingInstructionDataCodec(): Codec<
-  SubmitRatingInstructionDataArgs,
-  SubmitRatingInstructionData
+export function getSubmitRatingAnonymousInstructionDataCodec(): Codec<
+  SubmitRatingAnonymousInstructionDataArgs,
+  SubmitRatingAnonymousInstructionData
 > {
   return combineCodec(
-    getSubmitRatingInstructionDataEncoder(),
-    getSubmitRatingInstructionDataDecoder(),
+    getSubmitRatingAnonymousInstructionDataEncoder(),
+    getSubmitRatingAnonymousInstructionDataDecoder(),
   );
 }
 
-export type SubmitRatingAsyncInput<
-  TAccountVoter extends string = string,
+export type SubmitRatingAnonymousAsyncInput<
+  TAccountPayer extends string = string,
   TAccountPoliticianAccount extends string = string,
-  TAccountRatingAccount extends string = string,
+  TAccountNullifierAccount extends string = string,
+  TAccountAnonRatingAccount extends string = string,
   TAccountSystemProgram extends string = string,
 > = {
-  voter: TransactionSigner<TAccountVoter>;
+  payer: TransactionSigner<TAccountPayer>;
   politicianAccount?: Address<TAccountPoliticianAccount>;
-  ratingAccount?: Address<TAccountRatingAccount>;
+  /** Prevents the same nullifier from being used twice (double-vote guard). */
+  nullifierAccount?: Address<TAccountNullifierAccount>;
+  anonRatingAccount?: Address<TAccountAnonRatingAccount>;
   systemProgram?: Address<TAccountSystemProgram>;
-  politicianId: SubmitRatingInstructionDataArgs["politicianId"];
-  integrity: SubmitRatingInstructionDataArgs["integrity"];
-  workEthic: SubmitRatingInstructionDataArgs["workEthic"];
-  promisesKept: SubmitRatingInstructionDataArgs["promisesKept"];
-  overall: SubmitRatingInstructionDataArgs["overall"];
+  politicianId: SubmitRatingAnonymousInstructionDataArgs["politicianId"];
+  nullifier: SubmitRatingAnonymousInstructionDataArgs["nullifier"];
+  integrity: SubmitRatingAnonymousInstructionDataArgs["integrity"];
+  workEthic: SubmitRatingAnonymousInstructionDataArgs["workEthic"];
+  promisesKept: SubmitRatingAnonymousInstructionDataArgs["promisesKept"];
+  overall: SubmitRatingAnonymousInstructionDataArgs["overall"];
 };
 
-export async function getSubmitRatingInstructionAsync<
-  TAccountVoter extends string,
+export async function getSubmitRatingAnonymousInstructionAsync<
+  TAccountPayer extends string,
   TAccountPoliticianAccount extends string,
-  TAccountRatingAccount extends string,
+  TAccountNullifierAccount extends string,
+  TAccountAnonRatingAccount extends string,
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
 >(
-  input: SubmitRatingAsyncInput<
-    TAccountVoter,
+  input: SubmitRatingAnonymousAsyncInput<
+    TAccountPayer,
     TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountNullifierAccount,
+    TAccountAnonRatingAccount,
     TAccountSystemProgram
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
-  SubmitRatingInstruction<
+  SubmitRatingAnonymousInstruction<
     TProgramAddress,
-    TAccountVoter,
+    TAccountPayer,
     TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountNullifierAccount,
+    TAccountAnonRatingAccount,
     TAccountSystemProgram
   >
 > {
@@ -184,12 +205,19 @@ export async function getSubmitRatingInstructionAsync<
 
   // Original accounts.
   const originalAccounts = {
-    voter: { value: input.voter ?? null, isWritable: true },
+    payer: { value: input.payer ?? null, isWritable: true },
     politicianAccount: {
       value: input.politicianAccount ?? null,
       isWritable: true,
     },
-    ratingAccount: { value: input.ratingAccount ?? null, isWritable: true },
+    nullifierAccount: {
+      value: input.nullifierAccount ?? null,
+      isWritable: true,
+    },
+    anonRatingAccount: {
+      value: input.anonRatingAccount ?? null,
+      isWritable: true,
+    },
     systemProgram: { value: input.systemProgram ?? null, isWritable: false },
   };
   const accounts = originalAccounts as Record<
@@ -206,10 +234,14 @@ export async function getSubmitRatingInstructionAsync<
       politicianId: expectSome(args.politicianId),
     });
   }
-  if (!accounts.ratingAccount.value) {
-    accounts.ratingAccount.value = await findRatingAccountPda({
-      politicianId: expectSome(args.politicianId),
-      voter: expectAddress(accounts.voter.value),
+  if (!accounts.nullifierAccount.value) {
+    accounts.nullifierAccount.value = await findNullifierAccountPda({
+      nullifier: expectSome(args.nullifier),
+    });
+  }
+  if (!accounts.anonRatingAccount.value) {
+    accounts.anonRatingAccount.value = await findAnonRatingAccountPda({
+      nullifier: expectSome(args.nullifier),
     });
   }
   if (!accounts.systemProgram.value) {
@@ -220,60 +252,69 @@ export async function getSubmitRatingInstructionAsync<
   const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   return Object.freeze({
     accounts: [
-      getAccountMeta(accounts.voter),
+      getAccountMeta(accounts.payer),
       getAccountMeta(accounts.politicianAccount),
-      getAccountMeta(accounts.ratingAccount),
+      getAccountMeta(accounts.nullifierAccount),
+      getAccountMeta(accounts.anonRatingAccount),
       getAccountMeta(accounts.systemProgram),
     ],
-    data: getSubmitRatingInstructionDataEncoder().encode(
-      args as SubmitRatingInstructionDataArgs,
+    data: getSubmitRatingAnonymousInstructionDataEncoder().encode(
+      args as SubmitRatingAnonymousInstructionDataArgs,
     ),
     programAddress,
-  } as SubmitRatingInstruction<
+  } as SubmitRatingAnonymousInstruction<
     TProgramAddress,
-    TAccountVoter,
+    TAccountPayer,
     TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountNullifierAccount,
+    TAccountAnonRatingAccount,
     TAccountSystemProgram
   >);
 }
 
-export type SubmitRatingInput<
-  TAccountVoter extends string = string,
+export type SubmitRatingAnonymousInput<
+  TAccountPayer extends string = string,
   TAccountPoliticianAccount extends string = string,
-  TAccountRatingAccount extends string = string,
+  TAccountNullifierAccount extends string = string,
+  TAccountAnonRatingAccount extends string = string,
   TAccountSystemProgram extends string = string,
 > = {
-  voter: TransactionSigner<TAccountVoter>;
+  payer: TransactionSigner<TAccountPayer>;
   politicianAccount: Address<TAccountPoliticianAccount>;
-  ratingAccount: Address<TAccountRatingAccount>;
+  /** Prevents the same nullifier from being used twice (double-vote guard). */
+  nullifierAccount: Address<TAccountNullifierAccount>;
+  anonRatingAccount: Address<TAccountAnonRatingAccount>;
   systemProgram?: Address<TAccountSystemProgram>;
-  politicianId: SubmitRatingInstructionDataArgs["politicianId"];
-  integrity: SubmitRatingInstructionDataArgs["integrity"];
-  workEthic: SubmitRatingInstructionDataArgs["workEthic"];
-  promisesKept: SubmitRatingInstructionDataArgs["promisesKept"];
-  overall: SubmitRatingInstructionDataArgs["overall"];
+  politicianId: SubmitRatingAnonymousInstructionDataArgs["politicianId"];
+  nullifier: SubmitRatingAnonymousInstructionDataArgs["nullifier"];
+  integrity: SubmitRatingAnonymousInstructionDataArgs["integrity"];
+  workEthic: SubmitRatingAnonymousInstructionDataArgs["workEthic"];
+  promisesKept: SubmitRatingAnonymousInstructionDataArgs["promisesKept"];
+  overall: SubmitRatingAnonymousInstructionDataArgs["overall"];
 };
 
-export function getSubmitRatingInstruction<
-  TAccountVoter extends string,
+export function getSubmitRatingAnonymousInstruction<
+  TAccountPayer extends string,
   TAccountPoliticianAccount extends string,
-  TAccountRatingAccount extends string,
+  TAccountNullifierAccount extends string,
+  TAccountAnonRatingAccount extends string,
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
 >(
-  input: SubmitRatingInput<
-    TAccountVoter,
+  input: SubmitRatingAnonymousInput<
+    TAccountPayer,
     TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountNullifierAccount,
+    TAccountAnonRatingAccount,
     TAccountSystemProgram
   >,
   config?: { programAddress?: TProgramAddress },
-): SubmitRatingInstruction<
+): SubmitRatingAnonymousInstruction<
   TProgramAddress,
-  TAccountVoter,
+  TAccountPayer,
   TAccountPoliticianAccount,
-  TAccountRatingAccount,
+  TAccountNullifierAccount,
+  TAccountAnonRatingAccount,
   TAccountSystemProgram
 > {
   // Program address.
@@ -282,12 +323,19 @@ export function getSubmitRatingInstruction<
 
   // Original accounts.
   const originalAccounts = {
-    voter: { value: input.voter ?? null, isWritable: true },
+    payer: { value: input.payer ?? null, isWritable: true },
     politicianAccount: {
       value: input.politicianAccount ?? null,
       isWritable: true,
     },
-    ratingAccount: { value: input.ratingAccount ?? null, isWritable: true },
+    nullifierAccount: {
+      value: input.nullifierAccount ?? null,
+      isWritable: true,
+    },
+    anonRatingAccount: {
+      value: input.anonRatingAccount ?? null,
+      isWritable: true,
+    },
     systemProgram: { value: input.systemProgram ?? null, isWritable: false },
   };
   const accounts = originalAccounts as Record<
@@ -307,47 +355,51 @@ export function getSubmitRatingInstruction<
   const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   return Object.freeze({
     accounts: [
-      getAccountMeta(accounts.voter),
+      getAccountMeta(accounts.payer),
       getAccountMeta(accounts.politicianAccount),
-      getAccountMeta(accounts.ratingAccount),
+      getAccountMeta(accounts.nullifierAccount),
+      getAccountMeta(accounts.anonRatingAccount),
       getAccountMeta(accounts.systemProgram),
     ],
-    data: getSubmitRatingInstructionDataEncoder().encode(
-      args as SubmitRatingInstructionDataArgs,
+    data: getSubmitRatingAnonymousInstructionDataEncoder().encode(
+      args as SubmitRatingAnonymousInstructionDataArgs,
     ),
     programAddress,
-  } as SubmitRatingInstruction<
+  } as SubmitRatingAnonymousInstruction<
     TProgramAddress,
-    TAccountVoter,
+    TAccountPayer,
     TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountNullifierAccount,
+    TAccountAnonRatingAccount,
     TAccountSystemProgram
   >);
 }
 
-export type ParsedSubmitRatingInstruction<
+export type ParsedSubmitRatingAnonymousInstruction<
   TProgram extends string = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
   TAccountMetas extends readonly AccountMeta[] = readonly AccountMeta[],
 > = {
   programAddress: Address<TProgram>;
   accounts: {
-    voter: TAccountMetas[0];
+    payer: TAccountMetas[0];
     politicianAccount: TAccountMetas[1];
-    ratingAccount: TAccountMetas[2];
-    systemProgram: TAccountMetas[3];
+    /** Prevents the same nullifier from being used twice (double-vote guard). */
+    nullifierAccount: TAccountMetas[2];
+    anonRatingAccount: TAccountMetas[3];
+    systemProgram: TAccountMetas[4];
   };
-  data: SubmitRatingInstructionData;
+  data: SubmitRatingAnonymousInstructionData;
 };
 
-export function parseSubmitRatingInstruction<
+export function parseSubmitRatingAnonymousInstruction<
   TProgram extends string,
   TAccountMetas extends readonly AccountMeta[],
 >(
   instruction: Instruction<TProgram> &
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
-): ParsedSubmitRatingInstruction<TProgram, TAccountMetas> {
-  if (instruction.accounts.length < 4) {
+): ParsedSubmitRatingAnonymousInstruction<TProgram, TAccountMetas> {
+  if (instruction.accounts.length < 5) {
     // TODO: Coded error.
     throw new Error("Not enough accounts");
   }
@@ -360,11 +412,14 @@ export function parseSubmitRatingInstruction<
   return {
     programAddress: instruction.programAddress,
     accounts: {
-      voter: getNextAccount(),
+      payer: getNextAccount(),
       politicianAccount: getNextAccount(),
-      ratingAccount: getNextAccount(),
+      nullifierAccount: getNextAccount(),
+      anonRatingAccount: getNextAccount(),
       systemProgram: getNextAccount(),
     },
-    data: getSubmitRatingInstructionDataDecoder().decode(instruction.data),
+    data: getSubmitRatingAnonymousInstructionDataDecoder().decode(
+      instruction.data,
+    ),
   };
 }

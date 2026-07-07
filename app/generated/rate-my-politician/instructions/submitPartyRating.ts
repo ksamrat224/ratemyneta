@@ -38,7 +38,7 @@ import {
   type WritableAccount,
   type WritableSignerAccount,
 } from "@solana/kit";
-import { findPoliticianAccountPda, findRatingAccountPda } from "../pdas";
+import { findPartyAccountPda, findPartyRatingAccountPda } from "../pdas";
 import { RATE_MY_POLITICIAN_PROGRAM_ADDRESS } from "../programs";
 import {
   expectAddress,
@@ -47,21 +47,21 @@ import {
   type ResolvedAccount,
 } from "../shared";
 
-export const SUBMIT_RATING_DISCRIMINATOR = new Uint8Array([
-  238, 207, 253, 243, 170, 69, 73, 199,
+export const SUBMIT_PARTY_RATING_DISCRIMINATOR = new Uint8Array([
+  95, 125, 83, 108, 116, 160, 66, 54,
 ]);
 
-export function getSubmitRatingDiscriminatorBytes() {
+export function getSubmitPartyRatingDiscriminatorBytes() {
   return fixEncoderSize(getBytesEncoder(), 8).encode(
-    SUBMIT_RATING_DISCRIMINATOR,
+    SUBMIT_PARTY_RATING_DISCRIMINATOR,
   );
 }
 
-export type SubmitRatingInstruction<
+export type SubmitPartyRatingInstruction<
   TProgram extends string = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
   TAccountVoter extends string | AccountMeta<string> = string,
-  TAccountPoliticianAccount extends string | AccountMeta<string> = string,
-  TAccountRatingAccount extends string | AccountMeta<string> = string,
+  TAccountPartyAccount extends string | AccountMeta<string> = string,
+  TAccountPartyRatingAccount extends string | AccountMeta<string> = string,
   TAccountSystemProgram extends string | AccountMeta<string> =
     "11111111111111111111111111111111",
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
@@ -73,12 +73,12 @@ export type SubmitRatingInstruction<
         ? WritableSignerAccount<TAccountVoter> &
             AccountSignerMeta<TAccountVoter>
         : TAccountVoter,
-      TAccountPoliticianAccount extends string
-        ? WritableAccount<TAccountPoliticianAccount>
-        : TAccountPoliticianAccount,
-      TAccountRatingAccount extends string
-        ? WritableAccount<TAccountRatingAccount>
-        : TAccountRatingAccount,
+      TAccountPartyAccount extends string
+        ? WritableAccount<TAccountPartyAccount>
+        : TAccountPartyAccount,
+      TAccountPartyRatingAccount extends string
+        ? WritableAccount<TAccountPartyRatingAccount>
+        : TAccountPartyRatingAccount,
       TAccountSystemProgram extends string
         ? ReadonlyAccount<TAccountSystemProgram>
         : TAccountSystemProgram,
@@ -86,95 +86,100 @@ export type SubmitRatingInstruction<
     ]
   >;
 
-export type SubmitRatingInstructionData = {
+export type SubmitPartyRatingInstructionData = {
   discriminator: ReadonlyUint8Array;
-  politicianId: string;
-  integrity: number;
-  workEthic: number;
-  promisesKept: number;
-  overall: number;
+  partyId: string;
+  development: number;
+  antiCorruption: number;
+  popularity: number;
+  reformEffort: number;
+  governance: number;
 };
 
-export type SubmitRatingInstructionDataArgs = {
-  politicianId: string;
-  integrity: number;
-  workEthic: number;
-  promisesKept: number;
-  overall: number;
+export type SubmitPartyRatingInstructionDataArgs = {
+  partyId: string;
+  development: number;
+  antiCorruption: number;
+  popularity: number;
+  reformEffort: number;
+  governance: number;
 };
 
-export function getSubmitRatingInstructionDataEncoder(): Encoder<SubmitRatingInstructionDataArgs> {
+export function getSubmitPartyRatingInstructionDataEncoder(): Encoder<SubmitPartyRatingInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
-      ["politicianId", addEncoderSizePrefix(getUtf8Encoder(), getU32Encoder())],
-      ["integrity", getU8Encoder()],
-      ["workEthic", getU8Encoder()],
-      ["promisesKept", getU8Encoder()],
-      ["overall", getU8Encoder()],
+      ["partyId", addEncoderSizePrefix(getUtf8Encoder(), getU32Encoder())],
+      ["development", getU8Encoder()],
+      ["antiCorruption", getU8Encoder()],
+      ["popularity", getU8Encoder()],
+      ["reformEffort", getU8Encoder()],
+      ["governance", getU8Encoder()],
     ]),
-    (value) => ({ ...value, discriminator: SUBMIT_RATING_DISCRIMINATOR }),
+    (value) => ({ ...value, discriminator: SUBMIT_PARTY_RATING_DISCRIMINATOR }),
   );
 }
 
-export function getSubmitRatingInstructionDataDecoder(): Decoder<SubmitRatingInstructionData> {
+export function getSubmitPartyRatingInstructionDataDecoder(): Decoder<SubmitPartyRatingInstructionData> {
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
-    ["politicianId", addDecoderSizePrefix(getUtf8Decoder(), getU32Decoder())],
-    ["integrity", getU8Decoder()],
-    ["workEthic", getU8Decoder()],
-    ["promisesKept", getU8Decoder()],
-    ["overall", getU8Decoder()],
+    ["partyId", addDecoderSizePrefix(getUtf8Decoder(), getU32Decoder())],
+    ["development", getU8Decoder()],
+    ["antiCorruption", getU8Decoder()],
+    ["popularity", getU8Decoder()],
+    ["reformEffort", getU8Decoder()],
+    ["governance", getU8Decoder()],
   ]);
 }
 
-export function getSubmitRatingInstructionDataCodec(): Codec<
-  SubmitRatingInstructionDataArgs,
-  SubmitRatingInstructionData
+export function getSubmitPartyRatingInstructionDataCodec(): Codec<
+  SubmitPartyRatingInstructionDataArgs,
+  SubmitPartyRatingInstructionData
 > {
   return combineCodec(
-    getSubmitRatingInstructionDataEncoder(),
-    getSubmitRatingInstructionDataDecoder(),
+    getSubmitPartyRatingInstructionDataEncoder(),
+    getSubmitPartyRatingInstructionDataDecoder(),
   );
 }
 
-export type SubmitRatingAsyncInput<
+export type SubmitPartyRatingAsyncInput<
   TAccountVoter extends string = string,
-  TAccountPoliticianAccount extends string = string,
-  TAccountRatingAccount extends string = string,
+  TAccountPartyAccount extends string = string,
+  TAccountPartyRatingAccount extends string = string,
   TAccountSystemProgram extends string = string,
 > = {
   voter: TransactionSigner<TAccountVoter>;
-  politicianAccount?: Address<TAccountPoliticianAccount>;
-  ratingAccount?: Address<TAccountRatingAccount>;
+  partyAccount?: Address<TAccountPartyAccount>;
+  partyRatingAccount?: Address<TAccountPartyRatingAccount>;
   systemProgram?: Address<TAccountSystemProgram>;
-  politicianId: SubmitRatingInstructionDataArgs["politicianId"];
-  integrity: SubmitRatingInstructionDataArgs["integrity"];
-  workEthic: SubmitRatingInstructionDataArgs["workEthic"];
-  promisesKept: SubmitRatingInstructionDataArgs["promisesKept"];
-  overall: SubmitRatingInstructionDataArgs["overall"];
+  partyId: SubmitPartyRatingInstructionDataArgs["partyId"];
+  development: SubmitPartyRatingInstructionDataArgs["development"];
+  antiCorruption: SubmitPartyRatingInstructionDataArgs["antiCorruption"];
+  popularity: SubmitPartyRatingInstructionDataArgs["popularity"];
+  reformEffort: SubmitPartyRatingInstructionDataArgs["reformEffort"];
+  governance: SubmitPartyRatingInstructionDataArgs["governance"];
 };
 
-export async function getSubmitRatingInstructionAsync<
+export async function getSubmitPartyRatingInstructionAsync<
   TAccountVoter extends string,
-  TAccountPoliticianAccount extends string,
-  TAccountRatingAccount extends string,
+  TAccountPartyAccount extends string,
+  TAccountPartyRatingAccount extends string,
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
 >(
-  input: SubmitRatingAsyncInput<
+  input: SubmitPartyRatingAsyncInput<
     TAccountVoter,
-    TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountPartyAccount,
+    TAccountPartyRatingAccount,
     TAccountSystemProgram
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
-  SubmitRatingInstruction<
+  SubmitPartyRatingInstruction<
     TProgramAddress,
     TAccountVoter,
-    TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountPartyAccount,
+    TAccountPartyRatingAccount,
     TAccountSystemProgram
   >
 > {
@@ -185,11 +190,11 @@ export async function getSubmitRatingInstructionAsync<
   // Original accounts.
   const originalAccounts = {
     voter: { value: input.voter ?? null, isWritable: true },
-    politicianAccount: {
-      value: input.politicianAccount ?? null,
+    partyAccount: { value: input.partyAccount ?? null, isWritable: true },
+    partyRatingAccount: {
+      value: input.partyRatingAccount ?? null,
       isWritable: true,
     },
-    ratingAccount: { value: input.ratingAccount ?? null, isWritable: true },
     systemProgram: { value: input.systemProgram ?? null, isWritable: false },
   };
   const accounts = originalAccounts as Record<
@@ -201,14 +206,14 @@ export async function getSubmitRatingInstructionAsync<
   const args = { ...input };
 
   // Resolve default values.
-  if (!accounts.politicianAccount.value) {
-    accounts.politicianAccount.value = await findPoliticianAccountPda({
-      politicianId: expectSome(args.politicianId),
+  if (!accounts.partyAccount.value) {
+    accounts.partyAccount.value = await findPartyAccountPda({
+      partyId: expectSome(args.partyId),
     });
   }
-  if (!accounts.ratingAccount.value) {
-    accounts.ratingAccount.value = await findRatingAccountPda({
-      politicianId: expectSome(args.politicianId),
+  if (!accounts.partyRatingAccount.value) {
+    accounts.partyRatingAccount.value = await findPartyRatingAccountPda({
+      partyId: expectSome(args.partyId),
       voter: expectAddress(accounts.voter.value),
     });
   }
@@ -221,59 +226,60 @@ export async function getSubmitRatingInstructionAsync<
   return Object.freeze({
     accounts: [
       getAccountMeta(accounts.voter),
-      getAccountMeta(accounts.politicianAccount),
-      getAccountMeta(accounts.ratingAccount),
+      getAccountMeta(accounts.partyAccount),
+      getAccountMeta(accounts.partyRatingAccount),
       getAccountMeta(accounts.systemProgram),
     ],
-    data: getSubmitRatingInstructionDataEncoder().encode(
-      args as SubmitRatingInstructionDataArgs,
+    data: getSubmitPartyRatingInstructionDataEncoder().encode(
+      args as SubmitPartyRatingInstructionDataArgs,
     ),
     programAddress,
-  } as SubmitRatingInstruction<
+  } as SubmitPartyRatingInstruction<
     TProgramAddress,
     TAccountVoter,
-    TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountPartyAccount,
+    TAccountPartyRatingAccount,
     TAccountSystemProgram
   >);
 }
 
-export type SubmitRatingInput<
+export type SubmitPartyRatingInput<
   TAccountVoter extends string = string,
-  TAccountPoliticianAccount extends string = string,
-  TAccountRatingAccount extends string = string,
+  TAccountPartyAccount extends string = string,
+  TAccountPartyRatingAccount extends string = string,
   TAccountSystemProgram extends string = string,
 > = {
   voter: TransactionSigner<TAccountVoter>;
-  politicianAccount: Address<TAccountPoliticianAccount>;
-  ratingAccount: Address<TAccountRatingAccount>;
+  partyAccount: Address<TAccountPartyAccount>;
+  partyRatingAccount: Address<TAccountPartyRatingAccount>;
   systemProgram?: Address<TAccountSystemProgram>;
-  politicianId: SubmitRatingInstructionDataArgs["politicianId"];
-  integrity: SubmitRatingInstructionDataArgs["integrity"];
-  workEthic: SubmitRatingInstructionDataArgs["workEthic"];
-  promisesKept: SubmitRatingInstructionDataArgs["promisesKept"];
-  overall: SubmitRatingInstructionDataArgs["overall"];
+  partyId: SubmitPartyRatingInstructionDataArgs["partyId"];
+  development: SubmitPartyRatingInstructionDataArgs["development"];
+  antiCorruption: SubmitPartyRatingInstructionDataArgs["antiCorruption"];
+  popularity: SubmitPartyRatingInstructionDataArgs["popularity"];
+  reformEffort: SubmitPartyRatingInstructionDataArgs["reformEffort"];
+  governance: SubmitPartyRatingInstructionDataArgs["governance"];
 };
 
-export function getSubmitRatingInstruction<
+export function getSubmitPartyRatingInstruction<
   TAccountVoter extends string,
-  TAccountPoliticianAccount extends string,
-  TAccountRatingAccount extends string,
+  TAccountPartyAccount extends string,
+  TAccountPartyRatingAccount extends string,
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
 >(
-  input: SubmitRatingInput<
+  input: SubmitPartyRatingInput<
     TAccountVoter,
-    TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountPartyAccount,
+    TAccountPartyRatingAccount,
     TAccountSystemProgram
   >,
   config?: { programAddress?: TProgramAddress },
-): SubmitRatingInstruction<
+): SubmitPartyRatingInstruction<
   TProgramAddress,
   TAccountVoter,
-  TAccountPoliticianAccount,
-  TAccountRatingAccount,
+  TAccountPartyAccount,
+  TAccountPartyRatingAccount,
   TAccountSystemProgram
 > {
   // Program address.
@@ -283,11 +289,11 @@ export function getSubmitRatingInstruction<
   // Original accounts.
   const originalAccounts = {
     voter: { value: input.voter ?? null, isWritable: true },
-    politicianAccount: {
-      value: input.politicianAccount ?? null,
+    partyAccount: { value: input.partyAccount ?? null, isWritable: true },
+    partyRatingAccount: {
+      value: input.partyRatingAccount ?? null,
       isWritable: true,
     },
-    ratingAccount: { value: input.ratingAccount ?? null, isWritable: true },
     systemProgram: { value: input.systemProgram ?? null, isWritable: false },
   };
   const accounts = originalAccounts as Record<
@@ -308,45 +314,45 @@ export function getSubmitRatingInstruction<
   return Object.freeze({
     accounts: [
       getAccountMeta(accounts.voter),
-      getAccountMeta(accounts.politicianAccount),
-      getAccountMeta(accounts.ratingAccount),
+      getAccountMeta(accounts.partyAccount),
+      getAccountMeta(accounts.partyRatingAccount),
       getAccountMeta(accounts.systemProgram),
     ],
-    data: getSubmitRatingInstructionDataEncoder().encode(
-      args as SubmitRatingInstructionDataArgs,
+    data: getSubmitPartyRatingInstructionDataEncoder().encode(
+      args as SubmitPartyRatingInstructionDataArgs,
     ),
     programAddress,
-  } as SubmitRatingInstruction<
+  } as SubmitPartyRatingInstruction<
     TProgramAddress,
     TAccountVoter,
-    TAccountPoliticianAccount,
-    TAccountRatingAccount,
+    TAccountPartyAccount,
+    TAccountPartyRatingAccount,
     TAccountSystemProgram
   >);
 }
 
-export type ParsedSubmitRatingInstruction<
+export type ParsedSubmitPartyRatingInstruction<
   TProgram extends string = typeof RATE_MY_POLITICIAN_PROGRAM_ADDRESS,
   TAccountMetas extends readonly AccountMeta[] = readonly AccountMeta[],
 > = {
   programAddress: Address<TProgram>;
   accounts: {
     voter: TAccountMetas[0];
-    politicianAccount: TAccountMetas[1];
-    ratingAccount: TAccountMetas[2];
+    partyAccount: TAccountMetas[1];
+    partyRatingAccount: TAccountMetas[2];
     systemProgram: TAccountMetas[3];
   };
-  data: SubmitRatingInstructionData;
+  data: SubmitPartyRatingInstructionData;
 };
 
-export function parseSubmitRatingInstruction<
+export function parseSubmitPartyRatingInstruction<
   TProgram extends string,
   TAccountMetas extends readonly AccountMeta[],
 >(
   instruction: Instruction<TProgram> &
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
-): ParsedSubmitRatingInstruction<TProgram, TAccountMetas> {
+): ParsedSubmitPartyRatingInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 4) {
     // TODO: Coded error.
     throw new Error("Not enough accounts");
@@ -361,10 +367,10 @@ export function parseSubmitRatingInstruction<
     programAddress: instruction.programAddress,
     accounts: {
       voter: getNextAccount(),
-      politicianAccount: getNextAccount(),
-      ratingAccount: getNextAccount(),
+      partyAccount: getNextAccount(),
+      partyRatingAccount: getNextAccount(),
       systemProgram: getNextAccount(),
     },
-    data: getSubmitRatingInstructionDataDecoder().decode(instruction.data),
+    data: getSubmitPartyRatingInstructionDataDecoder().decode(instruction.data),
   };
 }

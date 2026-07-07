@@ -83,7 +83,6 @@ export function usePoliticianRatings(politicianId: string) {
           workEthic: values.workEthic,
           promisesKept: values.promisesKept,
           overall: values.overall,
-          zkVerified: false,
         });
         await send({ instructions: [ix] });
         await Promise.all([refreshPolitician(), refreshRating()]);

@@ -22,11 +22,20 @@ export const RATE_MY_POLITICIAN_ERROR__ID_TOO_LONG = 0x1771; // 6001
 export const RATE_MY_POLITICIAN_ERROR__OVERFLOW = 0x1772; // 6002
 /** UpdateWindowExpired: Update window of 24h has expired */
 export const RATE_MY_POLITICIAN_ERROR__UPDATE_WINDOW_EXPIRED = 0x1773; // 6003
+/** InvalidPartyRating: Party rating values must be between 1 and 5 */
+export const RATE_MY_POLITICIAN_ERROR__INVALID_PARTY_RATING = 0x1774; // 6004
+/** PartyIdTooLong: Party ID must be 32 characters or fewer */
+export const RATE_MY_POLITICIAN_ERROR__PARTY_ID_TOO_LONG = 0x1775; // 6005
+/** NullifierAlreadyUsed: This nullifier has already been used — double-vote prevented */
+export const RATE_MY_POLITICIAN_ERROR__NULLIFIER_ALREADY_USED = 0x1776; // 6006
 
 export type RateMyPoliticianError =
   | typeof RATE_MY_POLITICIAN_ERROR__ID_TOO_LONG
+  | typeof RATE_MY_POLITICIAN_ERROR__INVALID_PARTY_RATING
   | typeof RATE_MY_POLITICIAN_ERROR__INVALID_RATING
+  | typeof RATE_MY_POLITICIAN_ERROR__NULLIFIER_ALREADY_USED
   | typeof RATE_MY_POLITICIAN_ERROR__OVERFLOW
+  | typeof RATE_MY_POLITICIAN_ERROR__PARTY_ID_TOO_LONG
   | typeof RATE_MY_POLITICIAN_ERROR__UPDATE_WINDOW_EXPIRED;
 
 let rateMyPoliticianErrorMessages:
@@ -34,8 +43,11 @@ let rateMyPoliticianErrorMessages:
 if (process.env.NODE_ENV !== "production") {
   rateMyPoliticianErrorMessages = {
     [RATE_MY_POLITICIAN_ERROR__ID_TOO_LONG]: `Politician ID must be 64 characters or fewer`,
+    [RATE_MY_POLITICIAN_ERROR__INVALID_PARTY_RATING]: `Party rating values must be between 1 and 5`,
     [RATE_MY_POLITICIAN_ERROR__INVALID_RATING]: `Rating must be between 1 and 5`,
+    [RATE_MY_POLITICIAN_ERROR__NULLIFIER_ALREADY_USED]: `This nullifier has already been used — double-vote prevented`,
     [RATE_MY_POLITICIAN_ERROR__OVERFLOW]: `Arithmetic overflow`,
+    [RATE_MY_POLITICIAN_ERROR__PARTY_ID_TOO_LONG]: `Party ID must be 32 characters or fewer`,
     [RATE_MY_POLITICIAN_ERROR__UPDATE_WINDOW_EXPIRED]: `Update window of 24h has expired`,
   };
 }

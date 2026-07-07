@@ -155,14 +155,12 @@ export default function PartyPage() {
               return (
                 <div
                   key={party.id}
-                  onClick={() => toggleSelect(party.id)}
-                  className={`bg-white rounded-2xl border-2 transition-all cursor-pointer shadow-sm hover:shadow-md overflow-hidden ${
+                  className={`bg-white rounded-2xl border-2 transition-all shadow-sm hover:shadow-md overflow-hidden ${
                     isSelected ? "border-[#dc2626]" : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   {/* Top section: logo + badges */}
-                  <div className="relative p-4 pb-3">
-                    {/* Logo */}
+                  <Link href={`/party/${party.id}`} className="block relative p-4 pb-3">
                     <div
                       className="h-14 w-14 rounded-xl border border-black/10 flex items-center justify-center text-white font-black text-lg"
                       style={{ backgroundColor: party.color }}
@@ -170,7 +168,6 @@ export default function PartyPage() {
                       {party.shortName.slice(0, 2)}
                     </div>
 
-                    {/* Top-right badges */}
                     <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
                       <span className="bg-[#dc2626] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                         Avg. Attendance → {attendance}%
@@ -179,7 +176,7 @@ export default function PartyPage() {
                         Active Members → {memberCount}
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Status pills */}
                   <div className="px-4 flex items-center gap-1.5 flex-wrap">
@@ -189,11 +186,11 @@ export default function PartyPage() {
                   </div>
 
                   {/* Party name */}
-                  <div className="px-4 pt-2.5 pb-1">
+                  <Link href={`/party/${party.id}`} className="block px-4 pt-2.5 pb-1 hover:text-[#dc2626] transition-colors">
                     <h2 className="font-extrabold text-gray-900 text-base leading-tight">
                       {party.name} / {party.nameNepali}
                     </h2>
-                  </div>
+                  </Link>
 
                   {/* Divider */}
                   <div className="mx-4 border-t border-gray-100 mt-3" />
@@ -204,11 +201,27 @@ export default function PartyPage() {
                       Total Candidates:{" "}
                       <span className="font-semibold text-gray-700">{party.seats}</span>
                     </span>
-                    <div
-                      className="h-9 w-9 rounded-full border-2 flex items-center justify-center font-black text-xs"
-                      style={{ borderColor: gColor, color: gColor }}
-                    >
-                      {grade}
+                    <div className="flex items-center gap-2">
+                      {/* Compare checkbox */}
+                      <button
+                        onClick={() => toggleSelect(party.id)}
+                        title={isSelected ? "Remove from compare" : "Add to compare"}
+                        className={`h-5 w-5 rounded border-2 flex items-center justify-center transition-colors cursor-pointer ${
+                          isSelected ? "bg-[#dc2626] border-[#dc2626]" : "border-gray-300 hover:border-[#dc2626]"
+                        }`}
+                      >
+                        {isSelected && (
+                          <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+                      <div
+                        className="h-9 w-9 rounded-full border-2 flex items-center justify-center font-black text-xs"
+                        style={{ borderColor: gColor, color: gColor }}
+                      >
+                        {grade}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -4,6 +4,23 @@ export interface ParliamentData {
   billsPassed: number;
   termStart: string;
   termEnd: string | null;
+  questionsRaised?: number;
+  committeesServed?: number;
+}
+
+export interface CorruptionRecord {
+  casesRegistered: number;
+  casesConvicted: number;
+  casesPending: number;
+  ciaaInvestigations: number;
+  assetGrowthPercent: number;
+}
+
+export interface PromisesTracked {
+  total: number;
+  fulfilled: number;
+  pending: number;
+  broken: number;
 }
 
 export interface Politician {
@@ -19,6 +36,43 @@ export interface Politician {
   relatedPollIds: number[];
   tags?: string[];
   imageUrl?: string;
+  bio?: string;
+  socialLinks?: {
+    twitter?: string;
+    facebook?: string;
+  };
+  corruptionRecord?: CorruptionRecord;
+  promisesTracked?: PromisesTracked;
+}
+
+export interface PartyScandal {
+  year: number;
+  title: string;
+  description: string;
+  severity: 'minor' | 'major' | 'critical';
+  resolved: boolean;
+  sourceUrl?: string;
+  pointDeduction: number;
+}
+
+export interface PartyReform {
+  year: number;
+  title: string;
+  description: string;
+  impact: 'low' | 'medium' | 'high' | 'transformative';
+  impactPoints: number;
+  sourceUrl?: string;
+}
+
+export interface PartyObjectiveData {
+  memberAttendanceAvg: number;
+  billsPassedInLastTenure: number;
+  gdpGrowthDuringTenure?: number;
+  developmentProjectsCompleted: number;
+  corruptionCasesAgainstMembers: number;
+  electionPromises: PromisesTracked;
+  majorScandals: PartyScandal[];
+  majorReforms: PartyReform[];
 }
 
 export interface Party {
@@ -29,6 +83,9 @@ export interface Party {
   color: string;
   seats: number;
   founded: number;
+  ideology?: string[];
+  president?: string;
+  objectiveData?: PartyObjectiveData;
 }
 
 export interface JanamatPollOption {

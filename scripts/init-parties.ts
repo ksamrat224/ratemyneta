@@ -27,7 +27,7 @@ import { findPartyAccountPda } from "../app/generated/rate-my-politician/pdas/pa
 const RPC_URL = "http://127.0.0.1:8899";
 
 // All parties from app/data/parties.ts except "independent" (not a rateable party)
-const PARTY_IDS = ["nc", "cpn_uml", "cpn_mc", "rpp", "rsn", "janmat"];
+const PARTY_IDS = ["nc", "cpn_uml", "cpn_mc", "rpp", "rsn", "janmat", "msp", "ssp"];
 
 async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));

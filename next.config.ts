@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "janamat-backend-new-production.up.railway.app",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
     ],
   },
   // @solana/kit-plugin-payer's browser bundle has a spurious `import 'fs'`

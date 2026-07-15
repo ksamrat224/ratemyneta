@@ -47,6 +47,20 @@ const POLITICIAN_IDS = [
   "dev-gurung",
   "gagan-thapa",
   "pradeep-yadav",
+  "ram-chandra-poudel",
+  "kirti-agni-shakya",
+  "suskant-mandal",
+  "ghanasyal-ruvial",
+  "arjun-narasingha-kc",
+  "niranjan-sharma",
+  "hembahadur-malla",
+  "shailendra-kumar",
+  "candra-kant-rawat",
+  "gopal-kiran",
+  "sujan-chauhan",
+  "manish-kumar",
+  "ramesh-chandan",
+  "sanya-kumar",
 ];
 
 async function sleep(ms: number) {

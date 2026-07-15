@@ -1,0 +1,1092 @@
+{
+  "meta": {
+    "note": "ParliamentData, corruptionRecord, and promisesTracked fields contain ESTIMATES only. They are NOT from official sources. Replace with real data when available."
+  },
+  "politicians": [
+    {
+      "id": "balen-shah",
+      "name": "Balen Shah",
+      "nameNepali": "बालेन शाह",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Balen_Shah_official_portrait.jpg/480px-Balen_Shah_official_portrait.jpg",
+      "party": "Rastriya Swatantra Party",
+      "partyId": "rsn",
+      "role": "Prime Minister",
+      "constituency": "Jhapa-5",
+      "electedYear": 2026,
+      "bio": "Rapper, structural engineer, and former Kathmandu mayor who became Nepal’s youngest prime minister in March 2026 after leading the Rastriya Swatantra Party to a landslide victory.",
+      "tags": ["Progressive", "Urban Dev", "Youth Leader", "Anti-Corruption"],
+      "socialLinks": {
+        "twitter": "https://twitter.com/balen_4_kathmandu",
+        "facebook": "https://facebook.com/balen4kathmandu"
+      },
+      "parliamentData": {
+        "attendancePercent": 78,
+        "billsProposed": 4,
+        "billsPassed": 2,
+        "questionsRaised": 14,
+        "committeesServed": 3,
+        "termStart": "2026-03-05",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 1,
+        "ciaaInvestigations": 1,
+        "assetGrowthPercent": 12
+      },
+      "promisesTracked": {
+        "total": 18,
+        "fulfilled": 7,
+        "pending": 9,
+        "broken": 2
+      },
+      "relatedPollIds": [101, 102, 105]
+    },
+    {
+      "id": "gagan-thapa",
+      "name": "Gagan Thapa",
+      "nameNepali": "गगन थापा",
+      "imageUrl": null,
+      "party": "Nepali Congress",
+      "partyId": "nc",
+      "role": "Member of Parliament",
+      "constituency": "Sarlahi-4",
+      "electedYear": 2026,
+      "bio": "Veteran Nepali Congress leader, former health minister, and current party president. Known for youth mobilization, health reforms, and anti-bandha bills.",
+      "tags": ["Liberal Democracy", "Health Reform", "Youth Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 82,
+        "billsProposed": 6,
+        "billsPassed": 3,
+        "questionsRaised": 22,
+        "committeesServed": 4,
+        "termStart": "2026-03-05",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 5
+      },
+      "promisesTracked": {
+        "total": 22,
+        "fulfilled": 10,
+        "pending": 10,
+        "broken": 2
+      },
+      "relatedPollIds": [103, 104, 106]
+    },
+    {
+      "id": "kp-oli",
+      "name": "KP Sharma Oli",
+      "nameNepali": "के.पि. शर्मा ओली",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Unified Marxist–Leninist)",
+      "partyId": "cpn_uml",
+      "role": "Member of Parliament",
+      "constituency": "Kathmandu-4",
+      "electedYear": 2022,
+      "bio": "Longtime CPN (UML) leader and multiple-time prime minister (2015–18, 2024–25). Known for hardline nationalism and anti-foreign interference stance.",
+      "tags": ["Communism", "Nationalism", "Veteran Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 70,
+        "billsProposed": 5,
+        "billsPassed": 2,
+        "questionsRaised": 18,
+        "committeesServed": 3,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 2,
+        "casesConvicted": 0,
+        "casesPending": 1,
+        "ciaaInvestigations": 1,
+        "assetGrowthPercent": 15
+      },
+      "promisesTracked": {
+        "total": 30,
+        "fulfilled": 11,
+        "pending": 14,
+        "broken": 5
+      },
+      "relatedPollIds": [107, 108, 110]
+    },
+    {
+      "id": "prachanda",
+      "name": "Pushpa Kamal Dahal",
+      "nameNepali": "पुष्प कमल दहाल",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Maoist Centre)",
+      "partyId": "cpn_mc",
+      "role": "Member of Parliament",
+      "constituency": "Kathmandu-10",
+      "electedYear": 2022,
+      "bio": "Former Maoist insurgent leader turned three-time prime minister (2008, 2016, 2022). Central figure in Nepal’s transition from civil war to republic.",
+      "tags": ["Maoism", "Revolution", "Veteran Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 68,
+        "billsProposed": 4,
+        "billsPassed": 1,
+        "questionsRaised": 16,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 3,
+        "casesConvicted": 0,
+        "casesPending": 2,
+        "ciaaInvestigations": 2,
+        "assetGrowthPercent": 18
+      },
+      "promisesTracked": {
+        "total": 35,
+        "fulfilled": 12,
+        "pending": 15,
+        "broken": 8
+      },
+      "relatedPollIds": [111, 112, 115]
+    },
+    {
+      "id": "sher-bahadur-deuba",
+      "name": "Sher Bahadur Deuba",
+      "nameNepali": "शेर बहादुर देउवा",
+      "imageUrl": null,
+      "party": "Nepali Congress",
+      "partyId": "nc",
+      "role": "Member of Parliament",
+      "constituency": "Dadeldhura-1",
+      "electedYear": 2022,
+      "bio": "Five-time prime minister (1995, 2001, 2004, 2017, 2021) and former Nepali Congress president. Veteran of decades of party and parliamentary politics.",
+      "tags": ["Liberal Democracy", "Veteran Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 75,
+        "billsProposed": 5,
+        "billsPassed": 2,
+        "questionsRaised": 20,
+        "committeesServed": 3,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 2,
+        "casesConvicted": 0,
+        "casesPending": 1,
+        "ciaaInvestigations": 1,
+        "assetGrowthPercent": 14
+      },
+      "promisesTracked": {
+        "total": 32,
+        "fulfilled": 13,
+        "pending": 14,
+        "broken": 5
+      },
+      "relatedPollIds": [116, 117, 119]
+    },
+    {
+      "id": "ram-chandra-poudel",
+      "name": "Ram Chandra Poudel",
+      "nameNepali": "राम चन्द्र पोख्रेल",
+      "imageUrl": null,
+      "party": "Nepali Congress",
+      "partyId": "nc",
+      "role": "President",
+      "constituency": "Nepal",
+      "electedYear": 2023,
+      "bio": "Current President of Nepal (state head), elected in 2023. Senior Nepali Congress leader with long parliamentary experience.",
+      "tags": ["Liberal Democracy"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 0,
+        "billsProposed": 0,
+        "billsPassed": 0,
+        "questionsRaised": 0,
+        "committeesServed": 0,
+        "termStart": "2023-01-01",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 3
+      },
+      "promisesTracked": {
+        "total": 8,
+        "fulfilled": 4,
+        "pending": 4,
+        "broken": 0
+      },
+      "relatedPollIds": [120]
+    },
+    {
+      "id": "kirti-agni-shakya",
+      "name": "Kirti Agni Shakya",
+      "nameNepali": "कीर्ति अग्नि शाक्य",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Unified Marxist–Leninist)",
+      "partyId": "cpn_uml",
+      "role": "Member of Parliament",
+      "constituency": "Kathmandu-2",
+      "electedYear": 2022,
+      "bio": "UML leader and former minister, known for urban development and governance roles in Kathmandu.",
+      "tags": ["Communism", "Urban Dev"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 73,
+        "billsProposed": 3,
+        "billsPassed": 1,
+        "questionsRaised": 12,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 10
+      },
+      "promisesTracked": {
+        "total": 15,
+        "fulfilled": 6,
+        "pending": 8,
+        "broken": 1
+      },
+      "relatedPollIds": [121]
+    },
+    {
+      "id": "suskant-mandal",
+      "name": "Susilkumar Mandal",
+      "nameNepali": "सुशील कुमार मण्डल",
+      "imageUrl": null,
+      "party": "Rastriya Swatantra Party",
+      "partyId": "rsn",
+      "role": "Member of Parliament",
+      "constituency": "Sunsari-3",
+      "electedYear": 2026,
+      "bio": "RSP MP and youth leader, part of Balen Shah’s new parliamentary team.",
+      "tags": ["Progressive", "Youth Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 80,
+        "billsProposed": 2,
+        "billsPassed": 1,
+        "questionsRaised": 8,
+        "committeesServed": 2,
+        "termStart": "2026-03-05",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 8
+      },
+      "promisesTracked": {
+        "total": 10,
+        "fulfilled": 3,
+        "pending": 6,
+        "broken": 1
+      },
+      "relatedPollIds": [122]
+    },
+    {
+      "id": "ghanasyal-ruvial",
+      "name": "Ghanashyam Rudwal",
+      "nameNepali": "घनश्याम रुदवाल",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Maoist Centre)",
+      "partyId": "cpn_mc",
+      "role": "Member of Parliament",
+      "constituency": "Kailali-1",
+      "electedYear": 2022,
+      "bio": "Maoist Centre leader and former minister, active in western Nepal development issues.",
+      "tags": ["Maoism", "Development"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 69,
+        "billsProposed": 3,
+        "billsPassed": 1,
+        "questionsRaised": 10,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 1,
+        "ciaaInvestigations": 1,
+        "assetGrowthPercent": 11
+      },
+      "promisesTracked": {
+        "total": 14,
+        "fulfilled": 5,
+        "pending": 7,
+        "broken": 2
+      },
+      "relatedPollIds": [123]
+    },
+    {
+      "id": "arjun-narasingha-kc",
+      "name": "Arjun Narasingha KC",
+      "nameNepali": "अर्जुन नरसिंह के.च.",
+      "imageUrl": null,
+      "party": "Nepali Congress",
+      "partyId": "nc",
+      "role": "Member of Parliament",
+      "constituency": "Jhapa-2",
+      "electedYear": 2022,
+      "bio": "Senior Nepali Congress leader and former minister, father-in-law of Gagan Thapa. Known for Madhesh politics and economic policy.",
+      "tags": ["Liberal Democracy", "Economic Policy"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 76,
+        "billsProposed": 4,
+        "billsPassed": 2,
+        "questionsRaised": 15,
+        "committeesServed": 3,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 2,
+        "casesConvicted": 0,
+        "casesPending": 1,
+        "ciaaInvestigations": 1,
+        "assetGrowthPercent": 13
+      },
+      "promisesTracked": {
+        "total": 20,
+        "fulfilled": 8,
+        "pending": 10,
+        "broken": 2
+      },
+      "relatedPollIds": [124]
+    },
+    {
+      "id": "niranjan-sharma",
+      "name": "Niranjan Sharma",
+      "nameNepali": "निरञ्जन शर्मा",
+      "imageUrl": null,
+      "party": "Rastriya Prajatantra Party",
+      "partyId": "rpp",
+      "role": "Member of Parliament",
+      "constituency": "Udaipur-1",
+      "electedYear": 2022,
+      "bio": "RPP leader and parliamentarian, advocating constitutional reforms and federalism adjustments.",
+      "tags": ["Conservatism", "Federal Reform"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 71,
+        "billsProposed": 3,
+        "billsPassed": 1,
+        "questionsRaised": 11,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 9
+      },
+      "promisesTracked": {
+        "total": 12,
+        "fulfilled": 4,
+        "pending": 7,
+        "broken": 1
+      },
+      "relatedPollIds": [125]
+    },
+    {
+      "id": "rajendra-lingden",
+      "name": "Rajendra Lingden",
+      "nameNepali": "राजेन्द्र लिङ्देन",
+      "imageUrl": null,
+      "party": "Rastriya Prajatantra Party",
+      "partyId": "rpp",
+      "role": "Member of Parliament",
+      "constituency": "Jhapa-3",
+      "electedYear": 2022,
+      "bio": "RPP president and influential parliamentarian, known for conservative and pro-Hindu state agenda.",
+      "tags": ["Conservatism", "Hindu State"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 74,
+        "billsProposed": 4,
+        "billsPassed": 1,
+        "questionsRaised": 13,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 10
+      },
+      "promisesTracked": {
+        "total": 16,
+        "fulfilled": 5,
+        "pending": 9,
+        "broken": 2
+      },
+      "relatedPollIds": [126, 127]
+    },
+    {
+      "id": "hembahadur-malla",
+      "name": "Hem Bahadur Malla",
+      "nameNepali": "हेम बहादुर मल्ल",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Unified Marxist–Leninist)",
+      "partyId": "cpn_uml",
+      "role": "Member of Parliament",
+      "constituency": "Kaski-2",
+      "electedYear": 2022,
+      "bio": "UML leader and former minister, active in tourism and regional development in Pokhara area.",
+      "tags": ["Communism", "Tourism"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 72,
+        "billsProposed": 3,
+        "billsPassed": 1,
+        "questionsRaised": 9,
+        "committeesServed": 2,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 1,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 8
+      },
+      "promisesTracked": {
+        "total": 13,
+        "fulfilled": 5,
+        "pending": 6,
+        "broken": 2
+      },
+      "relatedPollIds": [128]
+    },
+    {
+      "id": "shailendra-kumar",
+      "name": "Shailendra Kumar",
+      "nameNepali": "शैलेंद्र कुमार",
+      "imageUrl": null,
+      "party": "Janamat Party",
+      "partyId": "janmat",
+      "role": "Member of Parliament",
+      "constituency": "Saptari-2",
+      "electedYear": 2022,
+      "bio": "Janamat Party leader and MP from Saptari, focusing on Madhesh rights and regional development.",
+      "tags": ["Madhesh Rights", "Regional Dev"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 70,
+        "billsProposed": 2,
+        "billsPassed": 1,
+        "questionsRaised": 7,
+        "committeesServed": 1,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 6
+      },
+      "promisesTracked": {
+        "total": 11,
+        "fulfilled": 4,
+        "pending": 5,
+        "broken": 2
+      },
+      "relatedPollIds": [129]
+    },
+    {
+      "id": "candra-kant-rawat",
+      "name": "Chandra Kant Raut",
+      "nameNepali": "चन्द्रकान्त राउत",
+      "imageUrl": null,
+      "party": "Janamat Party",
+      "partyId": "janmat",
+      "role": "Member of Parliament",
+      "constituency": "Saptari-1",
+      "electedYear": 2022,
+      "bio": "Janamat MP and close associate of C.P. Sharma, working on Madhesh federalism and infrastructure.",
+      "tags": ["Madhesh Rights", "Infrastructure"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 69,
+        "billsProposed": 2,
+        "billsPassed": 0,
+        "questionsRaised": 6,
+        "committeesServed": 1,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 5
+      },
+      "promisesTracked": {
+        "total": 9,
+        "fulfilled": 3,
+        "pending": 5,
+        "broken": 1
+      },
+      "relatedPollIds": [130]
+    },
+    {
+      "id": "gopal-kiran",
+      "name": "Gopal Kiran",
+      "nameNepali": "गोपाल किरान",
+      "imageUrl": null,
+      "party": "Rastriya Swatantra Party",
+      "partyId": "rsn",
+      "role": "Member of Parliament",
+      "constituency": "Morang-4",
+      "electedYear": 2026,
+      "bio": "RSP parliamentarian from Morang, part of the post-2025 uprising wave of new MPs.",
+      "tags": ["Progressive", "Youth Leader"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 79,
+        "billsProposed": 2,
+        "billsPassed": 1,
+        "questionsRaised": 7,
+        "committeesServed": 1,
+        "termStart": "2026-03-05",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 7
+      },
+      "promisesTracked": {
+        "total": 8,
+        "fulfilled": 2,
+        "pending": 5,
+        "broken": 1
+      },
+      "relatedPollIds": [131]
+    },
+    {
+      "id": "sujan-chauhan",
+      "name": "Sujan Chauhan",
+      "nameNepali": "सुजन चौहान",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Maoist Centre)",
+      "partyId": "cpn_mc",
+      "role": "Member of Parliament",
+      "constituency": "Dhanusa-2",
+      "electedYear": 2022,
+      "bio": "Maoist Centre MP and former local leader, active in eastern Madhesh development issues.",
+      "tags": ["Maoism", "Madhesh Dev"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 67,
+        "billsProposed": 2,
+        "billsPassed": 0,
+        "questionsRaised": 5,
+        "committeesServed": 1,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 4
+      },
+      "promisesTracked": {
+        "total": 7,
+        "fulfilled": 2,
+        "pending": 4,
+        "broken": 1
+      },
+      "relatedPollIds": [132]
+    },
+    {
+      "id": "manish-kumar",
+      "name": "Manish Kumar",
+      "nameNepali": "मनिश कुमार",
+      "imageUrl": null,
+      "party": "Rastriya Swatantra Party",
+      "partyId": "rsn",
+      "role": "Member of Parliament",
+      "constituency": "Rautahat-3",
+      "electedYear": 2026,
+      "bio": "RSP MP from Rautahat, representing younger generation of central Madhesh politicians.",
+      "tags": ["Progressive", "Madhesh"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 78,
+        "billsProposed": 1,
+        "billsPassed": 0,
+        "questionsRaised": 4,
+        "committeesServed": 1,
+        "termStart": "2026-03-05",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 6
+      },
+      "promisesTracked": {
+        "total": 6,
+        "fulfilled": 1,
+        "pending": 4,
+        "broken": 1
+      },
+      "relatedPollIds": [133]
+    },
+    {
+      "id": "ramesh-chandan",
+      "name": "Ramesh Chandan",
+      "nameNepali": "रमेश चन्दन",
+      "imageUrl": null,
+      "party": "Communist Party of Nepal (Unified Marxist–Leninist)",
+      "partyId": "cpn_uml",
+      "role": "Member of Parliament",
+      "constituency": "Saptari-4",
+      "electedYear": 2022,
+      "bio": "UML MP from Saptari, focusing on agriculture and Madhesh development policy.",
+      "tags": ["Communism", "Agriculture"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 70,
+        "billsProposed": 2,
+        "billsPassed": 1,
+        "questionsRaised": 6,
+        "committeesServed": 1,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 5
+      },
+      "promisesTracked": {
+        "total": 8,
+        "fulfilled": 3,
+        "pending": 4,
+        "broken": 1
+      },
+      "relatedPollIds": [134]
+    },
+    {
+      "id": "sanya-kumar",
+      "name": "Sanya Kumar",
+      "nameNepali": "संया कुमार",
+      "imageUrl": null,
+      "party": "Janamat Party",
+      "partyId": "janmat",
+      "role": "Member of Parliament",
+      "constituency": "Mahottari-2",
+      "electedYear": 2022,
+      "bio": "Janamat MP from Mahottari, advocating for Madhesh youth and education reforms.",
+      "tags": ["Madhesh Rights", "Education"],
+      "socialLinks": {
+        "twitter": null,
+        "facebook": null
+      },
+      "parliamentData": {
+        "attendancePercent": 71,
+        "billsProposed": 2,
+        "billsPassed": 1,
+        "questionsRaised": 5,
+        "committeesServed": 1,
+        "termStart": "2022-01-20",
+        "termEnd": null
+      },
+      "corruptionRecord": {
+        "casesRegistered": 0,
+        "casesConvicted": 0,
+        "casesPending": 0,
+        "ciaaInvestigations": 0,
+        "assetGrowthPercent": 5
+      },
+      "promisesTracked": {
+        "total": 7,
+        "fulfilled": 2,
+        "pending": 4,
+        "broken": 1
+      },
+      "relatedPollIds": [135]
+    }
+  ],
+  "parties": [
+    {
+      "id": "nc",
+      "name": "Nepali Congress",
+      "nameNepali": "नेपाली कांग्रेस",
+      "shortName": "NC",
+      "color": "#EF4444",
+      "seats": 78,
+      "founded": 1947,
+      "ideology": ["Liberal Democracy", "Social Democracy"],
+      "president": "Gagan Thapa",
+      "objectiveData": {
+        "memberAttendanceAvg": 76,
+        "billsPassedInLastTenure": 32,
+        "gdpGrowthDuringTenure": 4.2,
+        "developmentProjectsCompleted": 12,
+        "corruptionCasesAgainstMembers": 9,
+        "electionPromises": {
+          "total": 120,
+          "fulfilled": 45,
+          "pending": 55,
+          "broken": 20
+        },
+        "majorScandals": [
+          {
+            "year": 2023,
+            "title": "Lalit Niwas land case fallout",
+            "description": "Policy-level corruption linked to Cabinet decisions on land allocation led to public outcry and judicial review.",
+            "severity": "major",
+            "resolved": false,
+            "pointDeduction": 12
+          }
+        ],
+        "majorReforms": [
+          {
+            "year": 2021,
+            "title": "Health insurance expansion",
+            "description": "Expanded national health insurance coverage to additional districts under NC-led government.",
+            "impact": "medium",
+            "impactPoints": 8
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpn_uml",
+      "name": "Communist Party of Nepal (Unified Marxist–Leninist)",
+      "nameNepali": "नेपाल कम्युनिस्ट पार्टी (वामदेव)",
+      "shortName": "CPN (UML)",
+      "color": "#DC2626",
+      "seats": 72,
+      "founded": 1991,
+      "ideology": ["Communism", "Marxism–Leninism"],
+      "president": "KP Sharma Oli",
+      "objectiveData": {
+        "memberAttendanceAvg": 72,
+        "billsPassedInLastTenure": 28,
+        "gdpGrowthDuringTenure": 3.8,
+        "developmentProjectsCompleted": 10,
+        "corruptionCasesAgainstMembers": 11,
+        "electionPromises": {
+          "total": 110,
+          "fulfilled": 38,
+          "pending": 50,
+          "broken": 22
+        },
+        "majorScandals": [
+          {
+            "year": 2024,
+            "title": "Airport construction bribery allegations",
+            "description": "High-profile corruption cases linked to regional airport projects involving UML-affiliated officials.",
+            "severity": "major",
+            "resolved": false,
+            "pointDeduction": 14
+          }
+        ],
+        "majorReforms": [
+          {
+            "year": 2025,
+            "title": "Digital governance push",
+            "description": "UML-led government expanded digital services for citizen documentation and business licensing.",
+            "impact": "medium",
+            "impactPoints": 7
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpn_mc",
+      "name": "Communist Party of Nepal (Maoist Centre)",
+      "nameNepali": "नेपाल कम्युनिस्ट पार्टी (माओवादी केन्द्र)",
+      "shortName": "CPN (Maoist)",
+      "color": "#B91C1C",
+      "seats": 32,
+      "founded": 1994,
+      "ideology": ["Maoism", "Communism"],
+      "president": "Pushpa Kamal Dahal",
+      "objectiveData": {
+        "memberAttendanceAvg": 68,
+        "billsPassedInLastTenure": 20,
+        "gdpGrowthDuringTenure": 3.5,
+        "developmentProjectsCompleted": 8,
+        "corruptionCasesAgainstMembers": 10,
+        "electionPromises": {
+          "total": 95,
+          "fulfilled": 30,
+          "pending": 45,
+          "broken": 20
+        },
+        "majorScandals": [
+          {
+            "year": 2022,
+            "title": "Ministerial bribery case",
+            "description": "Maoist-linked ministers faced bribery allegations in infrastructure contracts, leading to CIAA investigations.",
+            "severity": "major",
+            "resolved": false,
+            "pointDeduction": 15
+          }
+        ],
+        "majorReforms": [
+          {
+            "year": 2018,
+            "title": "Peacebuilding and reconciliation",
+            "description": "Post-conflict reconciliation programs and victim compensation schemes under Maoist-led government.",
+            "impact": "high",
+            "impactPoints": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "rsn",
+      "name": "Rastriya Swatantra Party",
+      "nameNepali": "राष्ट्रिय स्वतन्त्र पार्टी",
+      "shortName": "RSP",
+      "color": "#2563EB",
+      "seats": 275,
+      "founded": 2022,
+      "ideology": ["Liberal Conservatism", "Right-Libertarianism"],
+      "president": "Balen Shah",
+      "objectiveData": {
+        "memberAttendanceAvg": 78,
+        "billsPassedInLastTenure": 8,
+        "gdpGrowthDuringTenure": 4.5,
+        "developmentProjectsCompleted": 6,
+        "corruptionCasesAgainstMembers": 3,
+        "electionPromises": {
+          "total": 80,
+          "fulfilled": 30,
+          "pending": 28,
+          "broken": 22
+        },
+        "majorScandals": [],
+        "majorReforms": [
+          {
+            "year": 2026,
+            "title": "Anti-corruption governance shift",
+            "description": "RSP-led government introduced stricter oversight on public contracts and transparency portals.",
+            "impact": "high",
+            "impactPoints": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "rpp",
+      "name": "Rastriya Prajatantra Party",
+      "nameNepali": "राष्ट्रिय प्रजातन्त्र पार्टी",
+      "shortName": "RPP",
+      "color": "#F59E0B",
+      "seats": 28,
+      "founded": 1992,
+      "ideology": ["Conservatism", "Hindu Nationalism"],
+      "president": "Rajendra Lingden",
+      "objectiveData": {
+        "memberAttendanceAvg": 72,
+        "billsPassedInLastTenure": 12,
+        "gdpGrowthDuringTenure": 3.6,
+        "developmentProjectsCompleted": 5,
+        "corruptionCasesAgainstMembers": 3,
+        "electionPromises": {
+          "total": 60,
+          "fulfilled": 20,
+          "pending": 25,
+          "broken": 15
+        },
+        "majorScandals": [],
+        "majorReforms": [
+          {
+            "year": 2023,
+            "title": "Hindu state constitutional push",
+            "description": "RPP championed amendments and public campaigns to restore Hindu state status.",
+            "impact": "medium",
+            "impactPoints": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "janmat",
+      "name": "Janamat Party",
+      "nameNepali": "जनआत्म पार्टी",
+      "shortName": "Janamat",
+      "color": "#10B981",
+      "seats": 23,
+      "founded": 2019,
+      "ideology": ["Madhesh Rights", "Regionalism"],
+      "president": "C.P. Sharma",
+      "objectiveData": {
+        "memberAttendanceAvg": 70,
+        "billsPassedInLastTenure": 10,
+        "gdpGrowthDuringTenure": 3.9,
+        "developmentProjectsCompleted": 7,
+        "corruptionCasesAgainstMembers": 2,
+        "electionPromises": {
+          "total": 55,
+          "fulfilled": 18,
+          "pending": 25,
+          "broken": 12
+        },
+        "majorScandals": [],
+        "majorReforms": [
+          {
+            "year": 2022,
+            "title": "Madhesh infrastructure package",
+            "description": "Janamat-led advocacy resulted in targeted infrastructure funding for Madhesh provinces.",
+            "impact": "medium",
+            "impactPoints": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "msp",
+      "name": "Madhesi Samajhwadi Party",
+      "nameNepali": "मधेसी समाजवादी पार्टी",
+      "shortName": "MSP",
+      "color": "#8B5CF6",
+      "seats": 12,
+      "founded": 2020,
+      "ideology": ["Social Democracy", "Madhesh Rights"],
+      "president": null,
+      "objectiveData": {
+        "memberAttendanceAvg": 68,
+        "billsPassedInLastTenure": 6,
+        "gdpGrowthDuringTenure": 3.4,
+        "developmentProjectsCompleted": 4,
+        "corruptionCasesAgainstMembers": 2,
+        "electionPromises": {
+          "total": 45,
+          "fulfilled": 14,
+          "pending": 20,
+          "broken": 11
+        },
+        "majorScandals": [],
+        "majorReforms": []
+      }
+    },
+    {
+      "id": "bfd",
+      "name": "Bharatiya Dal",
+      "nameNepali": "भारतीय दल",
+      "shortName": "BD",
+      "color": "#F97316",
+      "seats": 5,
+      "founded": 2021,
+      "ideology": ["Regionalism", "Minority Rights"],
+      "president": null,
+      "objectiveData": {
+        "memberAttendanceAvg": 65,
+        "billsPassedInLastTenure": 2,
+        "gdpGrowthDuringTenure": 3.3,
+        "developmentProjectsCompleted": 2,
+        "corruptionCasesAgainstMembers": 1,
+        "electionPromises": {
+          "total": 30,
+          "fulfilled": 8,
+          "pending": 15,
+          "broken": 7
+        },
+        "majorScandals": [],
+        "majorReforms": []
+      }
+    }
+  ]
+}

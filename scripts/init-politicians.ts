@@ -24,7 +24,10 @@ import { getInitializePoliticianInstructionAsync } from "../app/generated/rate-m
 import { fetchMaybePoliticianAccount } from "../app/generated/rate-my-politician/accounts/politicianAccount";
 import { findPoliticianAccountPda } from "../app/generated/rate-my-politician/pdas/politicianAccount";
 
-const RPC_URL = "http://127.0.0.1:8899";
+const RPC_URL =
+  process.env.RPC_URL ??
+  process.env.SOLANA_RPC_URL ??
+  "http://127.0.0.1:8899";
 
 const POLITICIAN_IDS = [
   "balen-shah",

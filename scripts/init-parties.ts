@@ -24,7 +24,10 @@ import { getInitializePartyInstructionAsync } from "../app/generated/rate-my-pol
 import { fetchMaybePartyAccount } from "../app/generated/rate-my-politician/accounts/partyAccount";
 import { findPartyAccountPda } from "../app/generated/rate-my-politician/pdas/partyAccount";
 
-const RPC_URL = "http://127.0.0.1:8899";
+const RPC_URL =
+  process.env.RPC_URL ??
+  process.env.SOLANA_RPC_URL ??
+  "http://127.0.0.1:8899";
 
 // All parties from app/data/parties.ts except "independent" (not a rateable party)
 const PARTY_IDS = ["nc", "cpn_uml", "cpn_mc", "rpp", "rsn", "janmat", "msp", "ssp"];
